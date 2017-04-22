@@ -1,0 +1,9 @@
+<h1>Event</h1>
+
+<% if(event) { %>
+  <h4><%= event.name %></h4>
+  <p><%= event.description %></p>
+  <p><%= event._id %></p>
+<% }else{ %>
+  <h4>No event found</h4>
+<% } %>

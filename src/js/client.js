@@ -4,25 +4,34 @@ $(() => {
   // Internal AJAX call for users
   $
   .get('/show/users')
-  .done(json => {
-    json.forEach(user => {
+  .done(users => {
+    users.forEach(user => {
       $(`<p>${user.username}, ${user.email}, ${user._id}, ${user.password}</p>`).appendTo('.users');
     });
   }); // End of internal AJAX call for users
   // Internal AJAX call for artists
   $
   .get('/artists')
-  .done(json => {
-    json.forEach(artist => {
+  .done(artists => {
+    artists.forEach(artist => {
       $(`<p><a href="/artist/${artist._id}">${artist.name}, ${artist.description}</a></p>`).appendTo('.artists');
     });
   }); // End of internal AJAX call for artists
   // Internal AJAX call for venues
   $
-  .get('/artists')
-  .done(json => {
-    json.forEach(venue => {
-      $(`<p><a href="/venue/${venue._id}">${venue.name}, ${venue.description}</a></p>`).appendTo('.venues');
+  .get('/venues')
+  .done(venues => {
+    venues.forEach(venue => {
+      $(`<p><a href="/venue/${venue._id}">${venue.name}, ${venue._id}</a></p>`).appendTo('.venues');
+    });
+  }); // End of internal AJAX call for venues
+  // Internal AJAX call for venues
+  $
+  .get('/events')
+  .done(events => {
+    events.forEach(event => {
+      console.log(event);
+      $(`<p><a href="/event/${event._id}">${event.name}, ${event._id}</a></p>`).appendTo('.events');
     });
   }); // End of internal AJAX call for venues
 

@@ -1,0 +1,9 @@
+<h1>Venue</h1>
+
+<% if(venue) { %>
+  <h4><%= venue.name %></h4>
+  <p><%= venue.description %></p>
+  <p><%= venue._id %></p>
+<% }else{ %>
+  <h4>No venue found</h4>
+<% } %>
