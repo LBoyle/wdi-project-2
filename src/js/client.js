@@ -30,7 +30,6 @@ $(() => {
   .get('/events')
   .done(events => {
     events.forEach(event => {
-      console.log(event);
       $(`<p><a href="/event/${event._id}">${event.name}, ${event._id}</a></p>`).appendTo('.events');
     });
   }); // End of internal AJAX call for venues
@@ -43,5 +42,3 @@ $(() => {
   //   for (const field in json) console.log(json[field]);
   // });
 });
-
-// http://api.jambase.com/search?zip=94107&apikey=vked2v3ab566xrzn5tvy27g6
