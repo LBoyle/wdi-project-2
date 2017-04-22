@@ -1,0 +1,9 @@
+<h1>Artist</h1>
+
+<% if(artist) { %>
+  <h4><%= artist.name %></h4>
+  <p><%= artist.description %></p>
+  <p><%= artist._id %></p>
+<% }else{ %>
+  <h4>No artist found</h4>
+<% } %>

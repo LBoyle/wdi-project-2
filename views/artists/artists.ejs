@@ -1,0 +1,9 @@
+<h1>Artists</h1>
+
+<% if(artists.length > 0) { %>
+  <% artists.forEach(artist => { %>
+    <h4><a href="/artist/<%= artist._id %>"><%= artist %></a></h4>
+  <% }); %>
+<% }else{ %>
+  <h4>No artists found</h4>
+<% } %>
