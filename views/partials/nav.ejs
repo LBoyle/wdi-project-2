@@ -1,0 +1,26 @@
+<nav class="nav has-shadow">
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item" href="/">
+        <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
+      </a>
+      <p class="nav-item is-tab">Find Gigs</p>
+      <%# links here %>
+    </div>
+    <span class="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div class="nav-right nav-menu">
+      <%# also can put links here %>
+        <% if (locals.isLoggedIn) { %>
+            <a class="nav-item is-tab" href="javascript:void(0)">Log out</a>
+        <% } else { %>
+            <a type="submit" class="nav-item is-tab" href="javascript:void(0)">Log In</a>
+            <a class="nav-item is-tab" href="javascript:void(0)">Register</a>
+        <% } %>
+
+    </div>
+  </div>
+</nav>
