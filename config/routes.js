@@ -3,10 +3,11 @@ const router  = express.Router();
 
 const User = require('../models/user');
 
-// actual get route
-router.get('/', (req, res) => res.render('statics/home', {users: undefined}));
+// One actual get route
+router.get('/', (req, res) => res.render('statics/home'));
 
 // AJAX routes
+// route for Users
 router.get('/show/users', (req, res) => {
   User
     .find()
@@ -15,7 +16,7 @@ router.get('/show/users', (req, res) => {
       res.json(users);
     })
     .catch(err => {
-      console.log(`Ajax error ${err}`);
+      console.log(`Ajax error in /show/users ${err}`);
     });
 });
 
