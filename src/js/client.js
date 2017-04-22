@@ -1,5 +1,17 @@
 $(() => {
   console.log('jQuery on');
+  // loginForm looks bad with button or submit, so I used an a tag
+  $('#loginSubmit').on('click', () => {
+    $('#loginForm').submit();
+  });
+
+  // registerModal event listener
+  $('.modalShow').on('click', () => {
+    $('.modal').addClass('is-active');
+    $('.modalClose').on('click', () => {
+      $('.modal').removeClass('is-active');
+    });
+  });
 
   // Internal AJAX call for users
   $

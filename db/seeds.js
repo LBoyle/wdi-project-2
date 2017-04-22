@@ -23,11 +23,17 @@ User
     {
       username: 'Louis',
       email: 'louis@louis.com',
-      password: 'password'
+      password: 'password',
+      favEvents: [],
+      favVenues: [],
+      favArtists: []
     },{
       username: 'Admin',
       email: 'admin@admin.com',
-      password: 'password'
+      password: 'password',
+      favEvents: [],
+      favVenues: [],
+      favArtists: []
     }
   ])
   .then(users => {

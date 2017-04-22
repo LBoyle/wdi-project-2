@@ -13,13 +13,13 @@
       <span></span>
     </span>
     <div class="nav-right nav-menu">
-      <%# also can put links here %>
-        <% if (locals.isLoggedIn) { %>
-            <a class="nav-item is-tab" href="javascript:void(0)">Log out</a>
-        <% } else { %>
-            <a type="submit" class="nav-item is-tab" href="javascript:void(0)">Log In</a>
-            <a class="nav-item is-tab" href="javascript:void(0)">Register</a>
-        <% } %>
+
+      <% if (locals.isLoggedIn) { %>
+        <a class="nav-item is-tab" href="javascript:void(0)">Log out</a>
+      <% } else { %>
+        <%- include ./loginForm %>
+        <a class="modalShow nav-item is-tab" href="javascript:void(0)">Register</a>
+      <% } %>
 
     </div>
   </div>
