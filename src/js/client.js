@@ -5,9 +5,13 @@ $(() => {
   $
   .get('/show/users')
   .done(users => {
-    users.forEach(user => {
-      $(`<p>${user.username}, ${user.email}, ${user._id}, ${user.password}</p>`).appendTo('.users');
-    });
+    if (users) {
+      users.forEach(user => {
+        $(`<p>${user.username}, ${user.email}, ${user._id}, ${user.password}</p>`).appendTo('.users');
+      });
+    } else {
+      $(`<h2>Database not connected</h2>`).appendTo('.users');
+    }
   }); // End of internal AJAX call for users
   // Internal AJAX call for artists
   $
