@@ -5,7 +5,7 @@ $(() => {
   $
   .get('/show/users')
   .done(users => {
-    if (users) {
+    if (users.length > 0) {
       users.forEach(user => {
         $(`<p>${user.username}, ${user.email}, ${user._id}, ${user.password}</p>`).appendTo('.users');
       });
