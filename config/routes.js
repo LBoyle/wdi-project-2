@@ -16,6 +16,9 @@ router.route('/show/users')
 router.route('/login')
   .post(sessions.login);
 
+router.route('/logout')
+  .get(sessions.logout);
+
 router.route('/artists')
   .get(artists.show);
 router.route('/artist/:id')

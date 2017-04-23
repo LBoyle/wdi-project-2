@@ -6,10 +6,9 @@ function sessionsCreate(req, res) {
     .then(user => {
       if(!user || !user.validatePassword(req.body.password)) {
         // req.flash('danger', 'Unknown email/password combination');
-        return res.status(401).render('statics/home');
+        return res.redirect('/');
       }
       req.session.userId = user.id;
-      console.log('welcome back '+user.name);
       return res.redirect('/');
     });
 }

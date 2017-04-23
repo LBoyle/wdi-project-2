@@ -1,10 +1,9 @@
 <nav class="nav has-shadow">
   <div class="container">
     <div class="nav-left">
-      <a class="nav-item" href="/">
+      <a class="nav-item" style="margin-right: 20px" href="/">
         <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma logo">
       </a>
-      <p class="nav-item is-tab">Find Gigs</p>
       <%# links here %>
     </div>
     <span class="nav-toggle">
@@ -15,7 +14,8 @@
     <div class="nav-right nav-menu">
 
       <% if (locals.isLoggedIn) { %>
-        <a class="nav-item is-tab" href="javascript:void(0)">Log out</a>
+        <a class="nav-item is-tab" href="/logout">Log out</a>
+        <a class="nav-item is-tab" href="/account">Account</a>
       <% } else { %>
         <%- include ./loginForm %>
         <a class="modalShow nav-item is-tab" href="javascript:void(0)">Register</a>
@@ -23,4 +23,6 @@
 
     </div>
   </div>
+
+
 </nav>

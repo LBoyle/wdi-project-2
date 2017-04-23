@@ -13,6 +13,10 @@ $(() => {
     });
   });
 
+  $('.nav-toggle').on('click', () => {
+
+  });
+
   // // Internal AJAX call for users
   // $
   // .get('/show/users')
@@ -25,30 +29,19 @@ $(() => {
   //     $(`<h2>Database not connected</h2>`).appendTo('.users');
   //   }
   // }); // End of internal AJAX call for users
+
   // Internal AJAX call for artists
   $
   .get('/artists')
-  .done(artists => {
-    artists.forEach(artist => {
-      $(`<p><a href="/artist/${artist._id}">${artist.name}, ${artist.description}</a></p>`).appendTo('.artists');
-    });
-  }); // End of internal AJAX call for artists
+  .done(artists => clickTitle(artists, 'artist'));
   // Internal AJAX call for venues
   $
   .get('/venues')
-  .done(venues => {
-    venues.forEach(venue => {
-      $(`<p><a href="/venue/${venue._id}">${venue.name}, ${venue._id}</a></p>`).appendTo('.venues');
-    });
-  }); // End of internal AJAX call for venues
+  .done(venues => clickTitle(venues, 'venue'));
   // Internal AJAX call for venues
   $
   .get('/events')
-  .done(events => {
-    events.forEach(event => {
-      $(`<p><a href="/event/${event._id}">${event.name}, ${event._id}</a></p>`).appendTo('.events');
-    });
-  }); // End of internal AJAX call for venues
+  .done(events => clickTitle(events, 'event'));
 
   // External AJAX call for gig data, this is for Primus, artist id: 3346
 
@@ -57,4 +50,33 @@ $(() => {
   // .done(json => {
   //   for (const field in json) console.log(json[field]);
   // });
+
+  function clickTitle(objectList, keyString) {
+    $(`.${keyString+'s'}`).one('click', () => {
+      createList(objectList, keyString);
+      $(`.${keyString+'s'}`).one('click', function() {
+        $(`.${keyString+'s'}List`).remove();
+        clickTitle(objectList, keyString);
+      });
+    });
+  }
+
+  function createList(objectList, keyString) {
+    let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List">
+      <div class="hero-body">
+        <div class="container">`;
+    objectList.forEach(object => {
+      parentString +=
+      `<div>
+      <h1 class="title">
+        ${object.name}
+      </h1>
+      <h2 class="subtitle">
+        <p><a href="/${keyString}/${object._id}">View, ${object._id}</a></p>
+      </h2>
+      </div>`;
+    });
+    parentString += '</div></div></section>';
+    $(parentString).appendTo(`.${keyString+'s'}`);
+  }
 });

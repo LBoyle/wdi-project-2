@@ -39,12 +39,13 @@ app.use((req, res, next) => {
   if (!req.session.userId) return next();
 
   User
-    .find(req.session.userId)
+    .findById(req.session.userId)
     .exec()
     .then(user => {
       if (!user) {
         return req.session.regenerate(() => {
           // flash here
+          console.log(`No user, regenerating`);
           res.redirect('/');
         });
       }
