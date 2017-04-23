@@ -1,17 +1,23 @@
 const express         = require('express');
+const morgan          = require('morgan');
 const expressLayouts  = require('express-ejs-layouts');
 const bodyParser      = require('body-parser');
 const mongoose        = require('mongoose');
+mongoose.Promise      = require('bluebird');
 const methodOverride  = require('method-override');
+const session         = require('express-session');
 const env             = require('./config/env');
 const router          = require('./config/routes');
 const app             = express();
 
 mongoose.connect(env.db);
 
+const User = require('./models/user');
+
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 
+app.use(morgan('dev'));
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +28,32 @@ app.use(methodOverride((req) => {
     return method;
   }
 }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'It\'s a secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use((req, res, next) => {
+  if (!req.session.userId) return next();
+
+  User
+    .find(req.session.userId)
+    .exec()
+    .then(user => {
+      if (!user) {
+        return req.session.regenerate(() => {
+          // flash here
+          res.redirect('/');
+        });
+      }
+      req.session.userId = user._id;
+      res.locals.user = user;
+      res.locals.isLoggedIn = true;
+      next();
+    });
+});
 
 app.use(router);
 

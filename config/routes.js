@@ -2,15 +2,19 @@ const express = require('express');
 const router  = express.Router();
 
 // controllers
-const auth = require('../controllers/auth');
+const auth = require('../controllers/admin');
 const artists = require('../controllers/artists');
 const venues = require('../controllers/venues');
 const events = require('../controllers/events');
+const sessions = require('../controllers/sessions');
 
 router.get('/', (req, res) => res.render('statics/home'));
 
 router.route('/show/users')
   .get(auth.show);
+
+router.route('/login')
+  .post(sessions.login);
 
 router.route('/artists')
   .get(artists.show);

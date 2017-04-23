@@ -21,16 +21,18 @@ Event.collection.drop();
 User
   .create([
     {
-      username: 'Louis',
+      name: 'Louis',
       email: 'louis@louis.com',
       password: 'password',
+      passwordConf: 'password',
       favEvents: [],
       favVenues: [],
       favArtists: []
     },{
-      username: 'Admin',
+      name: 'Admin',
       email: 'admin@admin.com',
       password: 'password',
+      passwordConf: 'password',
       favEvents: [],
       favVenues: [],
       favArtists: []
