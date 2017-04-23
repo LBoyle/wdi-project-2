@@ -1,4 +1,4 @@
-div {
+div, .modal > * {
   -webkit-transition: all linear .2s;
   -moz-transition: all linear .2s;
   transition: all linear .2s;
@@ -6,7 +6,8 @@ div {
 .hidden {
   display: none;
 }
-p.control {
+p.control, .deleteForm {
+  text-align: center;
   margin: auto;
   max-width: 90%;
 }

@@ -26,6 +26,9 @@ router.route('/login')
 router.route('/logout')
   .get(sessions.logout);
 
+router.route('/register')
+  .post(sessions.createUser);
+
 router.route('/account/:id')
   .get(sessions.account);
 

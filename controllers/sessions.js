@@ -74,6 +74,21 @@ function usersOne(req, res) {
     });
 }
 
+function usersCreate(req, res) {
+  User
+  .create(req.body)
+  .then(user => {
+    console.log(`User ${user} created`);
+    return res.redirect('/');
+  })
+  .catch((err) => {
+    if (err.name === 'ValidationError') {
+      return res.status(400).redirect('/');
+    }
+    res.status(500).end();
+  });
+}
+
 function usersDelete(req, res) {
   User
     .findByIdAndRemove(req.params.id)
@@ -93,5 +108,6 @@ module.exports = {
   show: usersShow,
   showOne: usersOne,
   change: usersChange,
-  delete: usersDelete
+  delete: usersDelete,
+  createUser: usersCreate
 };
