@@ -36,6 +36,15 @@
       </p>
     </div>
   </form>
+
+  <form action="/account/user/<%= user._id %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <div class="field is-grouped">
+      <p class="control">
+        <button class="button is-primary" style="margin-bottom: 20px">Submit</button>
+      </p>
+    </div>
+  </form>
 </section>
 
 <section class="hero">

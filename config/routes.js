@@ -16,6 +16,7 @@ router.route('/show/users')
   .get(sessions.show);
 
 router.route('/account/user/:id')
+  .delete(sessions.delete)
   .put(sessions.change)
   .get(sessions.showOne);
 

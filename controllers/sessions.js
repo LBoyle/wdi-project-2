@@ -74,11 +74,24 @@ function usersOne(req, res) {
     });
 }
 
+function usersDelete(req, res) {
+  User
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      return sessionsDelete(req, res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 module.exports = {
   login: sessionsCreate,
   logout: sessionsDelete,
   account: sessionsAccount,
   show: usersShow,
   showOne: usersOne,
-  change: usersChange
+  change: usersChange,
+  delete: usersDelete
 };
