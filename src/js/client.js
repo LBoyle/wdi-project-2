@@ -1,6 +1,6 @@
 $(() => {
   console.log('jQuery on');
-  // loginForm looks bad with button or submit, so I used an a tag
+  // didn't submit when pressing an a link, input button is ugly
   $('#loginSubmit').on('click', () => {
     $('#loginForm').submit();
   });
@@ -14,69 +14,11 @@ $(() => {
   });
 
   $('.nav-toggle').on('click', () => {
-
+    // this works, I can use it for mobile menu?
   });
 
-  // // Internal AJAX call for users
-  // $
-  // .get('/show/users')
-  // .done(users => {
-  //   if (users.length > 0) {
-  //     users.forEach(user => {
-  //       $(`<p>${user.username}, ${user.email}, ${user._id}, ${user.password}</p>`).appendTo('.users');
-  //     });
-  //   } else {
-  //     $(`<h2>Database not connected</h2>`).appendTo('.users');
-  //   }
-  // }); // End of internal AJAX call for users
-
-  // Internal AJAX call for artists
-  $
-  .get('/artists')
-  .done(artists => clickTitle(artists, 'artist'));
-  // Internal AJAX call for venues
-  $
-  .get('/venues')
-  .done(venues => clickTitle(venues, 'venue'));
-  // Internal AJAX call for venues
-  $
-  .get('/events')
-  .done(events => clickTitle(events, 'event'));
-
-  // External AJAX call for gig data, this is for Primus, artist id: 3346
-
-  // $
-  // .get('http://api.jambase.com/events?artistId=3346&page=0&api_key=vked2v3ab566xrzn5tvy27g6')
-  // .done(json => {
-  //   for (const field in json) console.log(json[field]);
+  // $('.deleteNotification').on('click', () => {
+  //   locals.message = '';
+  //   $('.notification').remove();
   // });
-
-  function clickTitle(objectList, keyString) {
-    $(`.${keyString+'s'}`).one('click', () => {
-      createList(objectList, keyString);
-      $(`.${keyString+'s'}`).one('click', function() {
-        $(`.${keyString+'s'}List`).remove();
-        clickTitle(objectList, keyString);
-      });
-    });
-  }
-
-  function createList(objectList, keyString) {
-    let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List">
-      <div class="hero-body">
-        <div class="columns">`;
-    objectList.forEach(object => {
-      parentString +=
-      `<div class="column is-4">
-        <h1 class="title">
-          ${object.name}
-        </h1>
-        <h2 class="subtitle">
-          <p><a href="/${keyString}/${object._id}">View page</a></p>
-        </h2>
-      </div>`;
-    });
-    parentString += '</div></div></section>';
-    $(parentString).appendTo(`.${keyString+'s'}`);
-  }
 });

@@ -6,6 +6,7 @@ const mongoose        = require('mongoose');
 mongoose.Promise      = require('bluebird');
 const methodOverride  = require('method-override');
 const session         = require('express-session');
+const flash           = require('express-flash');
 const env             = require('./config/env');
 const router          = require('./config/routes');
 const app             = express();
@@ -17,6 +18,7 @@ const User = require('./models/user');
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 
+app.use(flash());
 app.use(morgan('dev'));
 app.use(expressLayouts);
 app.use(express.static(`${__dirname}/public`));

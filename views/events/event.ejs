@@ -1,9 +1,29 @@
 <h1>Event</h1>
 
 <% if(event) { %>
-  <h4><%= event.name %></h4>
-  <p><%= event.description %></p>
-  <p><%= event._id %></p>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="columns">
+        <div class="column is-6">
+          <h1 class="title"><%= event.name %></h1>
+          <p><%= event.description %></p>
+        </div>
+        <div class="column is-6">
+          <a href="#">Save to your favourites</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="hero">
+    <div class="columns">
+      <div class="column is-6">
+        <img src="<%= event.images[0] %>" alt="">
+      </div>
+      <div class="column is-6">
+        <img src="<%= event.images[1] %>" alt="">
+      </div>
+    </div>
+  </section>
 <% }else{ %>
   <h4>No event found</h4>
 <% } %>

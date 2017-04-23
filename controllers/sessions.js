@@ -5,10 +5,11 @@ function sessionsCreate(req, res) {
     .findOne({email: req.body.email})
     .then(user => {
       if(!user || !user.validatePassword(req.body.password)) {
-        // req.flash('danger', 'Unknown email/password combination');
-        return res.redirect('/');
+        res.locals.message = 'Unknown email/password combination';
+        return res.render('statics/home');
       }
       req.session.userId = user.id;
+      // res.locals.message = `welcome back, ${user.username}`;
       return res.redirect('/');
     });
 }
@@ -24,7 +25,28 @@ function sessionsAccount(req, res) {
       if(!user) {
         return console.log('No user found');
       }
-      return res.render('statics/account', user);
+      // res.locals.message = `${res.locals.user.username}`;
+      return res.render('statics/account');
+    });
+}
+
+function usersChange(req, res) {
+  console.log('trying to change session');
+  User
+    .findById(req.params.id)
+    .exec()
+    .then(user => {
+      for (const field in req.body) {
+        user[field] = req.body[field];
+      }
+      return user.save();
+    })
+    .then(user => {
+      // res.locals.message = 'Account updated';
+      return res.redirect(`/account/${user.id}`);
+    })
+    .catch(err => {
+      console.log(`error: ${err}`);
     });
 }
 
@@ -41,7 +63,6 @@ function usersShow(req, res) {
 }
 
 function usersOne(req, res) {
-  console.log(req.params);
   User
     .findById(req.params.id)
     .exec()
@@ -58,5 +79,6 @@ module.exports = {
   logout: sessionsDelete,
   account: sessionsAccount,
   show: usersShow,
-  showOne: usersOne
+  showOne: usersOne,
+  change: usersChange
 };

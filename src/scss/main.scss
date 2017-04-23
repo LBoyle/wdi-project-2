@@ -1,1 +1,12 @@
-
+div {
+  -webkit-transition: all linear .2s;
+  -moz-transition: all linear .2s;
+  transition: all linear .2s;
+}
+.hidden {
+  display: none;
+}
+p.control {
+  margin: auto;
+  max-width: 90%;
+}

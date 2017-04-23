@@ -1,7 +1,7 @@
 <section class="hero is-primary">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">Welcome back</h1>
+      <h1 class="title">Welcome back <%= user.username %></h1>
       <h2 class="subtitle">Account page</h2>
     </div>
   </div>
@@ -14,68 +14,113 @@
     </div>
   </div>
 </section>
+<section class="hero is-warning formPanel hidden">
+  <form action="/account/user/<%= user._id %>" method="post">
+    <input type="hidden" name="_method" value="put">
 
-<section class="hero is-warning formPanel">
+    <div class="field">
+      <p class="control">
+        <input class="input" type="text" name="username" placeholder="Username" value="<%= user.username %>"></input>
+      </p>
+    </div>
+
+    <div class="field">
+      <p class="control">
+        <input class="input" type="email" name="email" placeholder="Email" value="<%= user.email %>"></input>
+      </p>
+    </div>
+
+    <div class="field is-grouped">
+      <p class="control">
+        <button class="button is-primary" style="margin-bottom: 20px">Submit</button>
+      </p>
+    </div>
+  </form>
+</section>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Saved events</h1>
+    </div>
+  </div>
+</section>
+<section class="hero favsPanel">
 
 </section>
 
 
 <script type="text/javascript">
   $(() => {
-    function clickTitleAcc(origin, target) {
-      $(`.${origin}`).one('click', () => {
-        createListAcc(target);
-        $(`.${origin}`).one('click', function() {
-          $(`.${target}`).find('form').remove();
-          clickTitleAcc(origin, target);
+    function changeAccForm() {
+        function clickTitleAcc() {
+        $('.changeAccount').on('click', () => {
+          $('.formPanel').slideToggle('fast');
+          // $('.formPanel').toggleClass('hidden');
         });
+      }
+
+      const userId = $('.changeAccount').attr('data-id');
+      $
+      .get(`/account/user/${userId}`)
+      .done(user => {
+        clickTitleAcc('changeAccount','formPanel');
       });
     }
-    // <input type="hidden" name="_method" value="PUT">
-    function createListAcc(target) {
-      let parentString = `<form action="/">
-
-        <div class="field">
-          <p class="control">
-            <input class="input" type="text" name="username" placeholder="Username" value="<%= user.username %>"></input>
-          </p>
-        </div>
-
-        <div class="field">
-          <p class="control">
-            <input class="input" type="email" name="email" placeholder="Email" value="<%= user.email %>"></input>
-          </p>
-        </div>
-
-        <div class="field">
-          <p class="control">
-            <input class="input" type="password" name="password" placeholder="Old password"></input>
-          </p>
-        </div>
-        <div class="field">
-          <p class="control">
-            <input class="input" type="password" name="newPassword" placeholder="New password"></input>
-          </p>
-        </div>
-        <div class="field">
-          <p class="control">
-            <input class="input" type="password" name="newPasswordConf" placeholder="Confirm new password"></input>
-          </p>
-        </div>
-        <div class="field is-grouped">
-          <p class="control">
-            <button class="button is-primary" style="margin-bottom: 20px">Submit</button>
-          </p>
-        </div>
-      </form>`;
-      $(parentString).appendTo(`.${target}`);
-    }
-    const userId = $('.changeAccount').attr('data-id');
-    $
-    .get(`/account/user/${userId}`)
-    .done(user => {
-      clickTitleAcc('changeAccount','formPanel');
-    });
+    changeAccForm();
   });
 
 </script>
+
+
+<!-- <script type="text/javascript">
+// was using this before I tried slideToggle, see above
+// function xclickTitleAcc(origin, target) {
+//   $(`.${origin}`).one('click', () => {
+//     createListAcc(target);
+//     $(`.${origin}`).one('click', function() {
+//       $(`.${target}`).find('form').remove();
+//       clickTitleAcc(origin, target);
+//     });
+//   });
+// }
+// <input type="hidden" name="_method" value="PUT">
+// function createListAcc(target) {
+//   let parentString = `<form action="/">
+//
+//     <div class="field">
+//       <p class="control">
+//         <input class="input" type="text" name="username" placeholder="Username" value="<%= user.username %>"></input>
+//       </p>
+//     </div>
+//
+//     <div class="field">
+//       <p class="control">
+//         <input class="input" type="email" name="email" placeholder="Email" value="<%= user.email %>"></input>
+//       </p>
+//     </div>
+//
+//     <div class="field">
+//       <p class="control">
+//         <input class="input" type="password" name="password" placeholder="Old password"></input>
+//       </p>
+//     </div>
+//     <div class="field">
+//       <p class="control">
+//         <input class="input" type="password" name="newPassword" placeholder="New password"></input>
+//       </p>
+//     </div>
+//     <div class="field">
+//       <p class="control">
+//         <input class="input" type="password" name="newPasswordConf" placeholder="Confirm new password"></input>
+//       </p>
+//     </div>
+//     <div class="field is-grouped">
+//       <p class="control">
+//         <button class="button is-primary" style="margin-bottom: 20px">Submit</button>
+//       </p>
+//     </div>
+//   </form>`;
+//   $(parentString).appendTo(`.${target}`);
+// }
+</script> -->

@@ -63,3 +63,67 @@
 
 </div>
 <hr>
+
+<script type="text/javascript">
+$(() => {
+  function homePageItems() {
+    $
+    .get('/artists')
+    .done(artists => {
+      createList(artists, 'artist');
+      clickTitle(artists, 'artist');
+    });
+
+    $
+    .get('/venues')
+    .done(venues => {
+      createList(venues, 'venue');
+      clickTitle(venues, 'venue');
+    });
+
+    $
+    .get('/events')
+    .done(events => {
+      createList(events, 'event');
+      clickTitle(events, 'event');
+    });
+
+    // External AJAX call for gig data, this is for Primus, artist id: 3346
+
+    // $
+    // .get('http://api.jambase.com/events?artistId=3346&page=0&api_key=vked2v3ab566xrzn5tvy27g6')
+    // .done(json => {
+    //   for (const field in json) console.log(json[field]);
+    // });
+
+    // createList(objectList, keyString);
+
+    function clickTitle(objectList, keyString) {
+      $(`.${keyString+'s'}`).on('click', () => {
+        $(`.${keyString+'s'}List`).slideToggle('fast');
+
+      });
+    }
+
+    function createList(objectList, keyString) {
+      let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List hidden">
+        <div class="hero-body">
+          <div class="columns">`;
+      objectList.forEach(object => {
+        parentString +=
+        `<div class="column is-4">
+          <h1 class="title">
+            ${object.name}
+          </h1>
+          <h2 class="subtitle">
+            <p><a href="/${keyString}/${object._id}">View page</a></p>
+          </h2>
+        </div>`;
+      });
+      parentString += '</div></div></section>';
+      $(parentString).appendTo(`.${keyString+'s'}`);
+    }
+  }
+  homePageItems();
+});
+</script>

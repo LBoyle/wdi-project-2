@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <title>WDI Project 2</title>
 
-  <link rel="stylesheet" href="/css/main.css">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
 
   <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -21,15 +21,22 @@
 
   <header>
     <%- include ./partials/nav %>
-    <div id="notification" class="notification" style="display: none">
-      <button class="delete"></button>
-    </div>
+    <% if (locals.message) { %>
+      <div class="notification alert">
+        <p><%= message %></p>
+        <button class="deleteNotification delete"></button>
+      </div>
+    <% } %>
   </header>
-
   <main>
     <%- body %>
     <%- include ./partials/registerModal %>
   </main>
-
+  <script type="text/javascript">
+    $('.deleteNotification').on('click', () => {
+      // locals.message = '';
+      $('.notification').remove();
+    });
+  </script>
 </body>
 </html>
