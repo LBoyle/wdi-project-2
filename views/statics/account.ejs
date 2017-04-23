@@ -1,0 +1,81 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Welcome back</h1>
+      <h2 class="subtitle">Account page</h2>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-warning changeAccount" data-id="<%= user._id %>">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Change account</h1>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-warning formPanel">
+
+</section>
+
+
+<script type="text/javascript">
+  $(() => {
+    function clickTitleAcc(origin, target) {
+      $(`.${origin}`).one('click', () => {
+        createListAcc(target);
+        $(`.${origin}`).one('click', function() {
+          $(`.${target}`).find('form').remove();
+          clickTitleAcc(origin, target);
+        });
+      });
+    }
+    // <input type="hidden" name="_method" value="PUT">
+    function createListAcc(target) {
+      let parentString = `<form action="/">
+
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" name="username" placeholder="Username" value="<%= user.username %>"></input>
+          </p>
+        </div>
+
+        <div class="field">
+          <p class="control">
+            <input class="input" type="email" name="email" placeholder="Email" value="<%= user.email %>"></input>
+          </p>
+        </div>
+
+        <div class="field">
+          <p class="control">
+            <input class="input" type="password" name="password" placeholder="Old password"></input>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="password" name="newPassword" placeholder="New password"></input>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="password" name="newPasswordConf" placeholder="Confirm new password"></input>
+          </p>
+        </div>
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-primary" style="margin-bottom: 20px">Submit</button>
+          </p>
+        </div>
+      </form>`;
+      $(parentString).appendTo(`.${target}`);
+    }
+    const userId = $('.changeAccount').attr('data-id');
+    $
+    .get(`/account/user/${userId}`)
+    .done(user => {
+      clickTitleAcc('changeAccount','formPanel');
+    });
+  });
+
+</script>

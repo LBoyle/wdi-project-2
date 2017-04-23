@@ -17,7 +17,46 @@ function sessionsDelete(req, res) {
   return req.session.regenerate(() => res.redirect('/'));
 }
 
+function sessionsAccount(req, res) {
+  User
+    .findById(req.params.id)
+    .then(user => {
+      if(!user) {
+        return console.log('No user found');
+      }
+      return res.render('statics/account', user);
+    });
+}
+
+function usersShow(req, res) {
+  User
+    .find()
+    .exec()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      console.log(`Ajax error in /show/users ${err}`);
+    });
+}
+
+function usersOne(req, res) {
+  console.log(req.params);
+  User
+    .findById(req.params.id)
+    .exec()
+    .then(user => {
+      res.json(user);
+    })
+    .catch(err => {
+      console.log(`Ajax error retrieving user to modify: ${err}`);
+    });
+}
+
 module.exports = {
   login: sessionsCreate,
-  logout: sessionsDelete
+  logout: sessionsDelete,
+  account: sessionsAccount,
+  show: usersShow,
+  showOne: usersOne
 };

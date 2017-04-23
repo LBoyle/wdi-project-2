@@ -12,6 +12,20 @@ function usersShow(req, res) {
     });
 }
 
+function usersOne(req, res) {
+  console.log(req.params);
+  User
+    .findById(req.params.id)
+    .exec()
+    .then(user => {
+      res.json(user);
+    })
+    .catch(err => {
+      console.log(`Ajax error retrieving user to modify: ${err}`);
+    });
+}
+
 module.exports = {
-  show: usersShow
+  show: usersShow,
+  showOne: usersOne
 };

@@ -15,7 +15,7 @@
 
       <% if (locals.isLoggedIn) { %>
         <a class="nav-item is-tab" href="/logout">Log out</a>
-        <a class="nav-item is-tab" href="/account">Account</a>
+        <a class="nav-item is-tab" href="/account/<%= locals.user.id %>">Account</a>
       <% } else { %>
         <%- include ./loginForm %>
         <a class="modalShow nav-item is-tab" href="javascript:void(0)">Register</a>

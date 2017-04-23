@@ -11,13 +11,19 @@ const sessions = require('../controllers/sessions');
 router.get('/', (req, res) => res.render('statics/home'));
 
 router.route('/show/users')
-  .get(auth.show);
+  .get(sessions.show);
 
 router.route('/login')
   .post(sessions.login);
 
 router.route('/logout')
   .get(sessions.logout);
+
+router.route('/account/user/:id')
+  // .put(sessions.change)
+  .get(sessions.showOne);
+router.route('/account/:id')
+  .get(sessions.account);
 
 router.route('/artists')
   .get(artists.show);

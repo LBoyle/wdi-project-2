@@ -125,6 +125,19 @@ User
           'https://media-cdn.tripadvisor.com/media/photo-s/01/f2/a3/6d/roundhouse-exterior.jpg',
           'http://www.bloglmn.com/wp-content/uploads/Flaming-Lips-live-at-the-Roundhouse_-credit-Stuart-Leech.jpg'
         ]
+      },{
+        name: 'Roundhouse',
+        description: 'The Roundhouse is a hub of inspiration where artists and emerging talent create extraordinary work and where young people can grow creatively as individuals. We believe in the power of creativity to change lives.',
+        capacity: 1700,
+        futureEvents: [],
+        pastEvents: [],
+        location: 'Camden, London',
+        lat: 51.5434,
+        lng: 0.1518,
+        images: [
+          'https://media-cdn.tripadvisor.com/media/photo-s/01/f2/a3/6d/roundhouse-exterior.jpg',
+          'http://www.bloglmn.com/wp-content/uploads/Flaming-Lips-live-at-the-Roundhouse_-credit-Stuart-Leech.jpg'
+        ]
       }
     ]);
   })

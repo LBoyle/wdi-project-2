@@ -64,16 +64,16 @@ $(() => {
   function createList(objectList, keyString) {
     let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List">
       <div class="hero-body">
-        <div class="container">`;
+        <div class="columns">`;
     objectList.forEach(object => {
       parentString +=
-      `<div>
-      <h1 class="title">
-        ${object.name}
-      </h1>
-      <h2 class="subtitle">
-        <p><a href="/${keyString}/${object._id}">View, ${object._id}</a></p>
-      </h2>
+      `<div class="column is-4">
+        <h1 class="title">
+          ${object.name}
+        </h1>
+        <h2 class="subtitle">
+          <p><a href="/${keyString}/${object._id}">View page</a></p>
+        </h2>
       </div>`;
     });
     parentString += '</div></div></section>';
