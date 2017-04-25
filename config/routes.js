@@ -6,6 +6,7 @@ const artists = require('../controllers/artists');
 const venues = require('../controllers/venues');
 const events = require('../controllers/events');
 const sessions = require('../controllers/sessions');
+const users = require('../controllers/users');
 
 router.get('/', (req, res) => {
   // if (res.locals.isLoggedIn) res.locals.message = `Welcome back ${res.locals.user.username}`;
@@ -13,12 +14,12 @@ router.get('/', (req, res) => {
 });
 
 router.route('/show/users')
-  .get(sessions.show);
+  .get(users.show);
 
 router.route('/account/user/:id')
-  .delete(sessions.delete)
-  .put(sessions.change)
-  .get(sessions.showOne);
+  .delete(users.delete)
+  .put(users.change)
+  .get(users.showOne);
 
 router.route('/login')
   .post(sessions.login);
@@ -27,23 +28,23 @@ router.route('/logout')
   .get(sessions.logout);
 
 router.route('/register')
-  .post(sessions.createUser);
+  .post(users.createUser);
 
 router.route('/account/:id')
-  .get(sessions.account);
+  .get(users.account);
 
-router.route('/artists')
-  .get(artists.show);
+// router.route('/artists')
+//   .get(artists.show);
 router.route('/artist/:id')
   .get(artists.showOne);
 
-router.route('/venues')
-  .get(venues.show);
+// router.route('/venues')
+//   .get(venues.show);
 router.route('/venue/:id')
   .get(venues.showOne);
 
-router.route('/events')
-  .get(events.show);
+// router.route('/events')
+//   .get(events.show);
 router.route('/event/:id')
   .get(events.showOne);
 

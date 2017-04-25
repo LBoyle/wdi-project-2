@@ -7,10 +7,8 @@ $(() => {
 
   // registerModal event listener
   $('.modalShow').on('click', () => {
-    // $('.modal').show('fade');
     $('.modal').addClass('is-active');
     $('.modalClose').on('click', () => {
-      // $('.modal').hide('fade');
       $('.modal').removeClass('is-active');
     });
   });

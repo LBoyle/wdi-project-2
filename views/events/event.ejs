@@ -4,24 +4,89 @@
       <div class="columns">
         <div class="column is-6">
           <h1 class="title"><%= event.name %></h1>
-          <p><%= event.description %></p>
+          <p><%= event.dates.start.localDate %>, <%= event.dates.start.localTime %></p>
+          <p>Promoter: <%= event.promoter.name.toLowerCase() %></p>
         </div>
         <div class="column is-6">
-          <a href="#">Save to your favourites</a>
+          <a href="#">Save to your favourites</a><br>
+          <a href="<%= event.url %>">View on TicketMaster</a>
         </div>
       </div>
     </div>
   </section>
   <section class="hero">
     <div class="columns">
-      <div class="column is-6">
-        <img src="<%= event.images[0] %>" alt="">
+      <div class="column is-6 is-offset-3">
+        <img src="<%= event.images[0].url %>" alt="">
       </div>
-      <div class="column is-6">
-        <img src="<%= event.images[1] %>" alt="">
+
+    </div>
+  </section>
+  <section class="hero is-warning confirmedArtists" data-url="<%=  %>">
+    <div class="columns">
+      <div class="column is-6 is-offset-3">
+        <h1 class="title">Confirmed Artists</h1>
+        <p><%= 'http://app.ticketmaster.com'+event._links.attractions[0].href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+event._links.attractions[0].href.split('?')[1] %></p>
       </div>
     </div>
   </section>
 <% }else{ %>
   <h4>No event found</h4>
 <% } %>
+
+<script type="text/javascript">
+  $(() => {
+    $('.confirmedArtists').on('click', () => {
+
+    });
+  });
+</script>
+
+<%# const eventSchema = ({
+  name: {type: String, trim: true},
+  type: {type: String, trim: true},
+  id: {type: String, trim: true},
+  url: {type: String, trim: true},
+  locale: {type: String, trim: true},
+  images: [
+    {
+      ratio: {type: String, trim: true},
+      url: {type: String, trim: true},
+      width: {type: Number},
+      height: {type: Number},
+      fallback: {type: Boolean}
+    }
+  ],
+  sales: {
+    public: {
+      startDateTime: {type: String, trim: true},
+      startTBD: {type: Boolean},
+      endDateTime: {type: String, trim: true}
+    }
+  },
+  dates: {
+    start: {
+      localDate: {type: String, trim: true},
+      localTime: {type: String, trim: true},
+      dateTime: {type: String, trim: true},
+      dateTBD: {type: Boolean},
+      dateTBA: {type: Boolean},
+      timeTBA: {type: Boolean},
+      noSpecificTime: {type: Boolean}
+    },
+    timezone: {type: String, trim: true},
+    status: { code: {type: String, trim: true} },
+    spanMultipleDays: {type: Boolean}
+  },
+  promoter: {
+    id: {type: String, trim: true},
+    name: {type: String, trim: true},
+    description: {type: String, trim: true}
+  },
+  _links: {
+    self: { href: ['/discovery/v2/events/17uOv8G6G6-NfIT?', 'locale=en-us'] },
+    attractions:
+    [ { href: ['/discovery/v2/attractions/K8vZ917u0N0?', 'locale=en-us'] } ],
+    venues: [ { href: ['/discovery/v2/venues/KovZ9177cI0?', 'locale=en-de'] } ]
+  }
+});%>

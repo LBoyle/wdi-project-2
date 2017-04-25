@@ -4,9 +4,6 @@
       <div class="columns">
         <div class="column is-6">
           <h1 class="title"><%= artist.name %></h1>
-          <p><%= artist.description %></p>
-          <p><%= artist.members.length %> members</p>
-          <p><%= artist.albums.length %> albums</p>
         </div>
         <div class="column is-6">
           <a href="#">Save to your favourites</a>
@@ -15,15 +12,15 @@
     </div>
   </section>
   <section class="hero">
-    <div class="columns">
-      <div class="column is-6">
-        <img src="<%= artist.images[0] %>" alt="">
-      </div>
-      <div class="column is-6">
-        <img src="<%= artist.images[1] %>" alt="">
+    <div class="hero-body">
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <img src="<%= artist.images[0].url %>" alt="<%= artist.name %>">
+        </div>
       </div>
     </div>
   </section>
+
 
 <% }else{ %>
   <h4>No artist found</h4>

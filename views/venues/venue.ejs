@@ -4,24 +4,30 @@
       <div class="columns">
         <div class="column is-6">
           <h1 class="title"><%= venue.name %></h1>
-          <p><%= venue.description %></p>
+          <p><%= venue.city.name %>, <%= venue.country.name %>, <%=  %></p>
         </div>
         <div class="column is-6">
-          <a href="#">Save to your favourites</a>
+          <a href="#">Save to your favourites</a><br>
+          <a href="<%=  %>">View on TicketMaster</a>
         </div>
       </div>
     </div>
   </section>
-  <section class="hero">
-    <div class="columns">
-      <div class="column is-6">
-        <img src="<%= venue.images[0] %>" alt="">
-      </div>
-      <div class="column is-6">
-        <img src="<%= venue.images[1] %>" alt="">
-      </div>
-    </div>
-  </section>
+
 <% }else{ %>
   <h4>No venue found</h4>
 <% } %>
+
+<%# const venueSchema = new mongoose.Schema({
+  name: {type: String, trim: true},
+  type: {type: String, trim: true},
+  id: {type: String, trim: true},
+  url: {type: String, trim: true},
+  locale: {type: String, trim: true},
+  postalCode: {type: String, trim: true},
+  timezone: {type: String, trim: true},
+  city: { name: {type: String, trim: true} },
+  country: { name: {type: String, trim: true}, countryCode: {type: String, trim: true} },
+  address: { line1: {type: String, trim: true} },
+  location: { longitude: {type: String, trim: true}, latitude: {type: String, trim: true} }
+});%>
