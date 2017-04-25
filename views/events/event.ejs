@@ -8,6 +8,7 @@
           <p>Promoter: <%= event.promoter.name.toLowerCase() %></p>
         </div>
         <div class="column is-6">
+          <p>Venue: <a id="venueLink" data-url="<%= 'http://app.ticketmaster.com'+event._links.venues['0'].href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+event._links.venues['0'].href.split('?')[1] %>"></a></p>
           <a href="#">Save to your favourites</a><br>
           <a href="<%= event.url %>">View on TicketMaster</a>
         </div>
@@ -31,11 +32,11 @@
       </div>
     </div>
   </section>
-  <section class="hero showArtists">
+  <section class="hero showArtists hidden">
     <div class="hero-body">
       <div class="columns">
         <% event._links.attractions.forEach(artist => { %>
-          <div class="artistBox column" id="<%= artist.href.split('?')[0].split('/')[artist.href.split('?')[0].split('/').length-1] %>" data-url="<%= 'http://app.ticketmaster.com'+artist.href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+artist.href.split('?')[1] %>">
+          <div class="artistBox column is-3" id="<%= artist.href.split('?')[0].split('/')[artist.href.split('?')[0].split('/').length-1] %>" data-url="<%= 'http://app.ticketmaster.com'+artist.href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+artist.href.split('?')[1] %>">
 
           </div>
         <% }); %>
@@ -59,12 +60,23 @@
       .get($(artistBoxes[i]).attr('data-url'))
       .done(artist => {
         if (artist) {
-          $(`<p>${artist.name}, </p><a href="/artist/${artist.id}">View Artist Page</a>`).appendTo(`#${artist.id}`);
+          $(`<p>${artist.name}</p><a href="/artist/${artist.id}">View Artist Page</a>`).appendTo(`#${artist.id}`);
         } else {
           $(`<p>No artist found</p>`).appendTo(`#${artist.id}`);
         }
       });
     }
+
+    $
+      .get($('#venueLink').attr('data-url'))
+      .done(venue => {
+        if (venue) {
+          $('#venueLink').text(`${venue.name}`);
+          $('#venueLink').attr('href', `/venue/${venue.id}`);
+        } else {
+          $('#venueLink').text('<p>No artist found</p>');
+        }
+      });
   });
 </script>
 

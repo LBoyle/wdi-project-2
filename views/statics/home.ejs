@@ -2,11 +2,18 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        Homepage
-      </h1>
-      <h2 class="subtitle">
-        Subtitle
-      </h2>
+        Search for Events
+      </h1><br>
+      <form class="mainSearch" action="">
+        <div class="field has-addons">
+          <p class="control is-expanded">
+            <input class="input" type="text" placeholder="Search for Events">
+          </p>
+          <p class="control">
+            <a class="button" id="searchSubmit" style="color:black">Submit</a>
+          </p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -64,6 +71,18 @@
 
 <script type="text/javascript">
 $(() => {
+  //https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}
+  $('#searchSubmit').on('click', (e) => {
+    e.preventDefault();
+    // console.log('submitted');
+    $('.mainSearch').submit();
+  });
+  $('.mainSearch').on('submit', (e) => {
+    e.preventDefault();
+    console.log($('.mainSearch').find('input').val());
+  });
+
+  // populate page with standard results
   function homePageItems() {
     $
     .get('https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&locale=en-us&size=60')
@@ -97,7 +116,6 @@ $(() => {
     .get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&marketId=201')
     .done(events => {
       events = events._embedded.events.map(event => {
-        console.log(event);
         if (event.name !== 'DEMO EVENT') {
           return event;
         }
