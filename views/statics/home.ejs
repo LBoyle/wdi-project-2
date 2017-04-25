@@ -4,8 +4,17 @@
       <h1 class="title">
         Search for Events
       </h1><br>
-      <form class="mainSearch" action="">
+      <form class="mainSearch">
         <div class="field has-addons">
+          <p class="control">
+            <span class="select">
+              <select>
+                <option>Events</option>
+                <option>Venues</option>
+                <option>Artists</option>
+              </select>
+            </span>
+          </p>
           <p class="control is-expanded">
             <input class="input" type="text" placeholder="Search for Events">
           </p>
@@ -14,6 +23,14 @@
           </p>
         </div>
       </form>
+    </div>
+  </div>
+</section>
+
+<section class="hero hidden searchResultsParent">
+  <div class="hero-body">
+    <div class="container columns searchResults">
+
     </div>
   </div>
 </section>
@@ -72,15 +89,27 @@
 <script type="text/javascript">
 $(() => {
   //https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}
+  // prevent default and retrieve query from search form
   $('#searchSubmit').on('click', (e) => {
     e.preventDefault();
-    // console.log('submitted');
     $('.mainSearch').submit();
   });
-  $('.mainSearch').on('submit', (e) => {
+  $('.mainSearch').on('submit', (e) => { //////////////// here begins the search stuff
     e.preventDefault();
-    console.log($('.mainSearch').find('input').val());
+    const query = $('.mainSearch').find('input').val();
+    if ($('.oneResult').length > 0) $('.oneResult').remove();
+    $
+    .get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`)
+    .done(results => {
+      results._embedded.events.forEach(event => {
+        $(`<div class="column is-4 oneResult"><h1 class="title">${event.name}</h1><p><a href="/event/${event.id}">View page</a></p></div>`).appendTo('.searchResults');
+      });
+    });
+    if ($('.searchResultsParent').hasClass('hidden')) {
+      $('.searchResultsParent').slideToggle('fast').removeClass('hidden');
+    }
   });
+  //////////////// end of search stuff
 
   // populate page with standard results
   function homePageItems() {
