@@ -11,8 +11,6 @@
   </div>
 </section>
 
-<%# <div class="users"><h4>Users</h4></div><hr>%>
-
 <div class="artists">
   <section class="hero">
     <div class="hero-body">
@@ -68,8 +66,7 @@
 $(() => {
   function homePageItems() {
     $
-    // .get('/artists')
-    .get('http://app.ticketmaster.com/discovery/v2/attractions/?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&locale=en-us&size=60')
+    .get('http://app.ticketmaster.com/discovery/v2/attractions.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&locale=en-us&size=60')
     .done(artists => {
       artists = artists._embedded.attractions.map(artist => {
         if (artist.classifications[0].segment.name !== 'Sports') {
@@ -83,7 +80,6 @@ $(() => {
     });
 
     $
-    // .get('/venues')
     .get('https://app.ticketmaster.com/discovery/v2/venues.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&countryCode=GB')
     .done(venues => {
       venues = venues._embedded.venues.map(venue => {
@@ -96,18 +92,12 @@ $(() => {
       createList(venues, 'venue');
       clickTitle(venues, 'venue');
     });
-    // .then(venues => {
-    //   createList(venues, 'venue');
-    //   clickTitle(venues, 'venue');
-    // });
 
     $
-    // .get('/events')
     .get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&marketId=201')
     .done(events => {
       events = events._embedded.events.map(event => {
         if (event.name !== 'DEMO EVENT') {
-          // console.log(event._links);
           return event;
         }
       }).filter(event => {
@@ -117,8 +107,6 @@ $(() => {
       clickTitle(events, 'event');
     });
 
-    // createList(objectList, keyString);
-
     function clickTitle(objectList, keyString) {
       $(`.${keyString+'s'}`).on('click', () => {
         $(`.${keyString+'s'}List`).slideToggle('fast');
@@ -126,7 +114,6 @@ $(() => {
     }
 
     function createList(objectList, keyString) {
-      console.log(objectList[0]);
       let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List hidden">
         <div class="hero-body">
           <div class="columns">`;
