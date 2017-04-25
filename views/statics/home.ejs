@@ -97,6 +97,7 @@ $(() => {
     .get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&marketId=201')
     .done(events => {
       events = events._embedded.events.map(event => {
+        console.log(event);
         if (event.name !== 'DEMO EVENT') {
           return event;
         }

@@ -22,11 +22,23 @@
 
     </div>
   </section>
-  <section class="hero is-warning confirmedArtists" data-url="<%=  %>">
-    <div class="columns">
-      <div class="column is-6 is-offset-3">
-        <h1 class="title">Confirmed Artists</h1>
-        <p><%= 'http://app.ticketmaster.com'+event._links.attractions[0].href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+event._links.attractions[0].href.split('?')[1] %></p>
+  <section class="hero is-warning confirmedArtists">
+    <div class="hero-body">
+      <div class="columns">
+        <div class="column is-6">
+          <h1 class="title">Confirmed Artists</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="hero showArtists">
+    <div class="hero-body">
+      <div class="columns">
+        <% event._links.attractions.forEach(artist => { %>
+          <div class="artistBox column" id="<%= artist.href.split('?')[0].split('/')[artist.href.split('?')[0].split('/').length-1] %>" data-url="<%= 'http://app.ticketmaster.com'+artist.href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+artist.href.split('?')[1] %>">
+
+          </div>
+        <% }); %>
       </div>
     </div>
   </section>
@@ -37,8 +49,22 @@
 <script type="text/javascript">
   $(() => {
     $('.confirmedArtists').on('click', () => {
-
+      $('.showArtists').slideToggle('fast');
     });
+
+    const artistBoxes = $('.artistBox');
+    for (var i = 0; i < artistBoxes.length; i++) {
+
+      $
+      .get($(artistBoxes[i]).attr('data-url'))
+      .done(artist => {
+        if (artist) {
+          $(`<p>${artist.name}, </p><a href="/artist/${artist.id}">View Artist Page</a>`).appendTo(`#${artist.id}`);
+        } else {
+          $(`<p>No artist found</p>`).appendTo(`#${artist.id}`);
+        }
+      });
+    }
   });
 </script>
 
