@@ -16,7 +16,6 @@ function usersAccount(req, res) {
 }
 
 function usersChange(req, res) {
-  console.log('trying to change session');
   User
     .findById(res.locals.user.id)
     .exec()

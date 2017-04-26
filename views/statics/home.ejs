@@ -43,8 +43,7 @@
   </div>
 </section>
 
-<div class="artists">
-  <section class="hero">
+  <section class="hero attractions">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -56,12 +55,11 @@
       </div>
     </div>
   </section>
-
-</div>
+  <section class="hero is-primary is-medium attractionsList">
+  </section>
 <hr>
 
-<div class="venues">
-  <section class="hero">
+  <section class="hero venues">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -73,12 +71,11 @@
       </div>
     </div>
   </section>
-
-</div>
+  <section class="hero is-primary is-medium venuesList">
+  </section>
 <hr>
 
-<div class="events">
-  <section class="hero">
+  <section class="hero events">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -90,8 +87,8 @@
       </div>
     </div>
   </section>
-
-</div>
+  <section class="hero is-primary is-medium eventsList">
+  </section>
 <hr>
 
 <script type="text/javascript">
@@ -111,7 +108,6 @@ $(() => {
     e.preventDefault();
     if ($('.oneResult').length > 0) $('.oneResult').remove(); // delete old results
     const query = $('.mainSearch').find('input').val();
-    // console.log($('select').val());
     let searchType = $('select').val().toLowerCase();
     searchType = searchType.substring(0, searchType.length-1)
     let queryComplete = '';
@@ -162,72 +158,50 @@ $(() => {
     }
   });
   //////////////// end of search stuff
-
-  // populate page with standard results
-  function getArtists() {
+  function getData(keyString) {
     $
-    .get('https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&size=60')
-    .done(artists => {
-      artists = artists._embedded.attractions.map(artist => {
-        if (artist.classifications[0].segment.name !== 'Sports') {
-          return artist;
+    .get(`https://app.ticketmaster.com/discovery/v2/${keyString+'s'}.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn`)
+    .done(objects => {
+      console.log(objects);
+      objects = objects._embedded[keyString+'s'].map(object => {
+        if (object.clasifications) {
+          if (object.classifications[0].segment.name !== 'Sports') return object;
+        } else {
+          if (object.name !== 'DEMO ORGANISATION') return object;
         }
-      }).filter(artist => {
-        return artist !== undefined;
+      }).filter(object => {
+        return object !== undefined;
       });
-      createList(artists, 'artist');
+      createList(objects, keyString);
     });
-  }
-  function getVenues() {
-    $
-    .get('https://app.ticketmaster.com/discovery/v2/venues.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn')
-    .done(venues => {
-      venues = venues._embedded.venues.map(venue => {
-        if (venue.name !== 'DEMO ORGANISATION') {
-          return venue;
-        }
-      }).filter(venue => {
-        return venue !== undefined;
-      });
-      createList(venues, 'venue');
-    });
-  }
-  function getEvents() {
-    $
-    .get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn')
-    .done(events => {
-      events = events._embedded.events.map(event => {
-        if (event.name !== 'DEMO EVENT') {
-          return event;
-        }
-      }).filter(event => {
-        return event !== undefined;
-      });
-      createList(events, 'event');
-    });
-  }
+  } // this is the dry version of this function
 
   function clickHandler() {
     // $(`.${keyString+'s'}`).on('click', () => {
     //   $(`.${keyString+'s'}List`).slideToggle('fast');
     // });
-    $('.artists').on('click', () => {
-      if ($('.artistsList').length === 0) getArtists();
-      $('.artistsList').slideToggle('fast');
+    $('.attractions').on('click', () => {
+      if ($('.attractionsItem').length === 0) {
+        getData('attraction');
+        $('.attractionsList').slideToggle('fast');
+      } else $('.attractionsList').slideToggle('fast');
     });
     $('.events').on('click', () => {
-      if ($('.eventsList').length === 0) getEvents();
-      $('.eventsList').slideToggle('fast');
+      if ($('.eventsItem').length === 0) {
+        getData('event');
+        $('.eventsList').slideToggle('fast');
+    } else $('.eventsList').slideToggle('fast');
     });
     $('.venues').on('click', () => {
-      if ($('.venuesList').length === 0) getVenues();
-      $('.venuesList').slideToggle('fast');
+      if ($('.venuesItem').length === 0) {
+        getData('venue');
+        $('.venuesList').slideToggle('fast');
+    } else $('.venuesList').slideToggle('fast');
     });
   }
 
   function createList(objectList, keyString) {
-    let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List hidden">
-      <div class="hero-body">
+    let parentString = `<div class="hero-body ${keyString+'s'}Item">
         <div class="columns is-multiline">`;
     objectList.forEach(object => {
       parentString +=
@@ -240,8 +214,9 @@ $(() => {
         </h2>
       </div>`;
     });
-    parentString += '</div></div></section>';
-    $(parentString).appendTo(`.${keyString+'s'}`);
+    parentString += '</div></div>';
+    $(parentString).appendTo(`.${keyString+'s'}List`);
+    $(`.${keyString+'s'}List`).slideToggle('fast');
   }
 
   clickHandler();
