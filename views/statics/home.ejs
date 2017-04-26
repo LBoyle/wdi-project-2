@@ -104,17 +104,20 @@ $(() => {
     $('.searchResultsParent').slideToggle('fast').addClass('hidden');
   });
   //////////////// here begins the search stuff
+  // so I decided to use the work 'artist' and exclude Sports
+  // however TicktMaster uses 'attraction', this became a problem
   $('.mainSearch').on('submit', (e) => {
     e.preventDefault();
     if ($('.oneResult').length > 0) $('.oneResult').remove(); // delete old results
     const query = $('.mainSearch').find('input').val();
     let searchType = $('select').val().toLowerCase().substring(0, $('select').val().length-1);
-    if (searchType === 'artist') searchType = 'attraction';
+    if (searchType === 'artist') searchType = 'attraction'; // i did it here first
     $.get(`https://app.ticketmaster.com/discovery/v2/${searchType+'s'}.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`)
     .done(results => {
       results._embedded[searchType+'s'].forEach(object => {
         let imgUrl = '';
         if (object.images) imgUrl = object.images[0].url;
+        if (searchType === 'attraction') searchType = 'artist';
         let oneResult = `<div class="column is-4 oneResult"><h1 class="title">${object.name}</h1><p><a href="/${searchType}/${object.id}">View page</a></p></div>`;
         $(oneResult).appendTo('.searchResults');
       });
@@ -167,6 +170,7 @@ $(() => {
   function createList(objectList, keyString) {
     let parentString = `<div class="hero-body ${keyString+'s'}Item">
         <div class="columns is-multiline">`;
+    if (keyString === 'attraction') keyString = 'artist'; // yep
     objectList.forEach(object => {
       parentString +=
       `<div class="column is-4">
@@ -179,6 +183,7 @@ $(() => {
       </div>`;
     });
     parentString += '</div></div>';
+    if (keyString === 'artist') keyString = 'attraction'; // yep
     $(parentString).appendTo(`.${keyString+'s'}List`);
     $(`.${keyString+'s'}List`).slideToggle('fast');
   }
