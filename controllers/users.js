@@ -81,48 +81,6 @@ function usersDelete(req, res) {
     });
 }
 
-function addFavArtist(req, res) {
-  User
-    .findById(req.params.userId)
-    .exec()
-    .then(user => {
-      user.favArtists.push(req.params.id);
-      user.save();
-      return res.redirect(`/artist/${req.params.id}`);
-    })
-    .catch(err => {
-      console.log(`Error adding favourite Artist: ${err}`);
-    });
-}
-
-function addFavEvent(req, res) {
-  User
-    .findById(req.params.userId)
-    .exec()
-    .then(user => {
-      user.favEvent.push(req.params.id);
-      user.save();
-      return res.redirect(`/event/${req.params.id}`);
-    })
-    .catch(err => {
-      console.log(`Error adding favourite Event: ${err}`);
-    });
-}
-
-function addFavVenue(req, res) {
-  User
-    .findById(req.params.userId)
-    .exec()
-    .then(user => {
-      user.favVenue.push(req.params.id);
-      user.save();
-      return res.redirect(`/venue/${req.params.id}`);
-    })
-    .catch(err => {
-      console.log(`Error adding favourite Venue: ${err}`);
-    });
-}
-
 module.exports = {
   account: usersAccount,
   show: usersShow,
@@ -130,7 +88,4 @@ module.exports = {
   change: usersChange,
   delete: usersDelete,
   createUser: usersCreate,
-  favArtist: addFavArtist,
-  favEvent: addFavEvent,
-  favVenue: addFavVenue
 };

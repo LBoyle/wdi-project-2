@@ -7,6 +7,7 @@ const venues = require('../controllers/venues');
 const events = require('../controllers/events');
 const sessions = require('../controllers/sessions');
 const users = require('../controllers/users');
+const favourites = require('../controllers/favourites');
 
 router.get('/', (req, res) => {
   // if (res.locals.isLoggedIn) res.locals.message = `Welcome back ${res.locals.user.username}`;
@@ -14,11 +15,11 @@ router.get('/', (req, res) => {
 });
 
 router.route('/favourite/artist/:userId/:id')
-  .get(users.favArtist);
+  .get(favourites.favArtist);
 router.route('/favourite/event/:userId/:id')
-  .get(users.favEvent);
+  .get(favourites.favEvent);
 router.route('/favourite/venue/:userId/:id')
-  .get(users.favVenue);
+  .get(favourites.favVenue);
 
 router.route('/show/users')
   .get(users.show);

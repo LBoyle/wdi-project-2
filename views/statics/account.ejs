@@ -124,7 +124,8 @@
         $
         .get($(artistUrls[i]).text())
         .done(artist => {
-          $(`<p>${artist.name}</p>`).appendTo('.favArtists');
+          const favItem = `<p>${artist.name}</p>`;
+          $(favItem).appendTo('.favArtists');
         });
       }
       const venueUrls = $('.venueUrl');
@@ -133,7 +134,8 @@
         $
         .get($(venueUrls[i]).text())
         .done(venue => {
-          $(`<p>${venue.name}</p>`).appendTo('.favVenues');
+          const favItem = `<p>${venue.name}</p>`;
+          $(favItem).appendTo('.favVenues');
         });
       }
       const eventUrls = $('.eventUrl');
@@ -142,7 +144,8 @@
         $
         .get($(eventUrls[i]).text())
         .done(event => {
-          $(`<p>${event.name}</p>`).appendTo('.favEvents');
+          const favItem = `<p>${event.name}</p>`;
+          $(favItem).appendTo('.favEvents');
         });
       }
     }
