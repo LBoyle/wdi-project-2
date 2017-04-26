@@ -43,7 +43,7 @@
   </div>
 </section>
 
-  <section class="hero attractions">
+  <section class="hero attractions dropSection">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -59,7 +59,7 @@
   </section>
 <hr>
 
-  <section class="hero venues">
+  <section class="hero venues dropSection">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -75,7 +75,7 @@
   </section>
 <hr>
 
-  <section class="hero events">
+  <section class="hero events dropSection">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
@@ -143,29 +143,15 @@ $(() => {
     });
   } // this is the dry version of this function
 
-  function clickHandler() {
-    // $(`.${keyString+'s'}`).on('click', () => {
-    //   $(`.${keyString+'s'}List`).slideToggle('fast');
-    // });
-    $('.attractions').on('click', () => {
-      if ($('.attractionsItem').length === 0) {
-        getData('attraction');
-        $('.attractionsList').slideToggle('fast');
-      } else $('.attractionsList').slideToggle('fast');
+  function dropSection() {
+    $('.dropSection').on('click', function(e) {
+      const keyString = this.classList[1].substring(0, this.classList[1].length-1);
+      if ($(`.${keyString+'s'}Item`).length === 0) {
+        getData(`${keyString}`);
+        $(`.${keyString+'s'}List`).slideToggle('fast');
+      } else $(`.${keyString+'s'}List`).slideToggle('fast');
     });
-    $('.events').on('click', () => {
-      if ($('.eventsItem').length === 0) {
-        getData('event');
-        $('.eventsList').slideToggle('fast');
-    } else $('.eventsList').slideToggle('fast');
-    });
-    $('.venues').on('click', () => {
-      if ($('.venuesItem').length === 0) {
-        getData('venue');
-        $('.venuesList').slideToggle('fast');
-    } else $('.venuesList').slideToggle('fast');
-    });
-  }
+  } // shortened click event
 
   function createList(objectList, keyString) {
     let parentString = `<div class="hero-body ${keyString+'s'}Item">
@@ -187,6 +173,6 @@ $(() => {
     $(parentString).appendTo(`.${keyString+'s'}List`);
     $(`.${keyString+'s'}List`).slideToggle('fast');
   }
-  clickHandler();
+  dropSection();
 });
 </script>
