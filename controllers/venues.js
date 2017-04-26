@@ -7,13 +7,14 @@ function venuesOne(req, res) {
       'User-Agent': 'Request-Promise'
     },
     json: true
-  }; 
+  };
   rp(options)
     .then(venue => {
       return res.render('venues/venue', {venue});
     })
     .catch(err => {
       console.log('Route error: '+err);
+      res.render('statics/error', {error: err});
     });
 }
 

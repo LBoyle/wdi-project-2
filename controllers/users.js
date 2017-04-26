@@ -6,9 +6,14 @@ function usersAccount(req, res) {
       .findById(res.locals.user.id)
       .then(user => {
         if(!user) {
-          return console.log('No user found');
+          console.log('No user found');
+          return res.render('statics/error', {error: 'User not found'});
         }
         return res.render('statics/account', {user});
+      })
+      .catch(err => {
+        console.log(`Error getting user: ${err}`);
+        res.render('statics/error', {error: err});
       });
   } else {
     res.redirect('/');
@@ -30,6 +35,7 @@ function usersChange(req, res) {
     })
     .catch(err => {
       console.log(`error: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -42,6 +48,7 @@ function usersShow(req, res) {
     })
     .catch(err => {
       console.log(`Ajax error in /show/users ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -54,6 +61,7 @@ function usersOne(req, res) {
     })
     .catch(err => {
       console.log(`Ajax error retrieving user to modify: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -81,6 +89,7 @@ function usersDelete(req, res) {
     })
     .catch(err => {
       console.log(err);
+      res.render('statics/error', {error: err});
     });
 }
 

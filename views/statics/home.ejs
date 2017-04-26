@@ -108,67 +108,31 @@ $(() => {
     e.preventDefault();
     if ($('.oneResult').length > 0) $('.oneResult').remove(); // delete old results
     const query = $('.mainSearch').find('input').val();
-    let searchType = $('select').val().toLowerCase();
-    searchType = searchType.substring(0, searchType.length-1)
-    let queryComplete = '';
-    if (searchType === 'event') {
-      queryComplete = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
-      $
-      .get(queryComplete)
-      .done(results => {
-        results._embedded.events.forEach(event => {
-          let imgUrl = '';
-          if (event.images) imgUrl = event.images[0].url;
-          $(`<div class="column is-4 oneResult"><h1 class="title">${event.name}</h1><p><a href="/${searchType}/${event.id}">View page</a></p></div>`).appendTo('.searchResults');
-        });
+    let searchType = $('select').val().toLowerCase().substring(0, $('select').val().length-1);
+    if (searchType === 'artist') searchType = 'attraction';
+    $.get(`https://app.ticketmaster.com/discovery/v2/${searchType+'s'}.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`)
+    .done(results => {
+      results._embedded[searchType+'s'].forEach(object => {
+        let imgUrl = '';
+        if (object.images) imgUrl = object.images[0].url;
+        let oneResult = `<div class="column is-4 oneResult"><h1 class="title">${object.name}</h1><p><a href="/${searchType}/${object.id}">View page</a></p></div>`;
+        $(oneResult).appendTo('.searchResults');
       });
-    }
-    if (searchType === 'artist') {
-      queryComplete = `https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
-      $
-      .get(queryComplete)
-      .done(results => {
-        results._embedded.attractions.forEach(attraction => {
-          let imgUrl = '';
-
-          if (attraction.images) imgUrl = attraction.images[0].url;
-          let oneResult = `<div class="column is-4 oneResult"><h1 class="title">${attraction.name}</h1><p><a href="/${searchType}/${attraction.id}">View page</a></p></div>`;
-          // if ($('.oneResult').length % 3 === 2) oneResult += '<br><hr>';
-          $(oneResult).appendTo('.searchResults');
-        });
-      })
-      .fail(err => {
-        console.log('Error retrieving Artists: '+err);
-      });
-    }
-    if (searchType === 'venue') {
-      queryComplete = `https://app.ticketmaster.com/discovery/v2/venues.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
-      $
-      .get(queryComplete)
-      .done(results => {
-        results._embedded.venues.forEach(venue => {
-          let imgUrl = '';
-          if (venue.images) imgUrl = venue.images[0].url;
-          $(`<div class="column is-4 oneResult"><h1 class="title">${venue.name}</h1><p><a href="/${searchType}/${venue.id}">View page</a></p></div>`).appendTo('.searchResults');
-        });
-      });
-    }
+    })
+    .fail(err => {
+      console.log('Error retrieving results: '+err);
+    });
     if ($('.searchResultsParent').hasClass('hidden')) {
       $('.searchResultsParent').slideToggle('fast').removeClass('hidden');
     }
-  });
-  //////////////// end of search stuff
+  });//////////////// end of search stuff
   function getData(keyString) {
-    $
-    .get(`https://app.ticketmaster.com/discovery/v2/${keyString+'s'}.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn`)
+    $.get(`https://app.ticketmaster.com/discovery/v2/${keyString+'s'}.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn`)
     .done(objects => {
-      console.log(objects);
       objects = objects._embedded[keyString+'s'].map(object => {
         if (object.clasifications) {
           if (object.classifications[0].segment.name !== 'Sports') return object;
-        } else {
-          if (object.name !== 'DEMO ORGANISATION') return object;
-        }
+        } else if (object.name !== 'DEMO ORGANISATION') return object;
       }).filter(object => {
         return object !== undefined;
       });
@@ -218,7 +182,6 @@ $(() => {
     $(parentString).appendTo(`.${keyString+'s'}List`);
     $(`.${keyString+'s'}List`).slideToggle('fast');
   }
-
   clickHandler();
 });
 </script>

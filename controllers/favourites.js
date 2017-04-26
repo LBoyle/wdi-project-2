@@ -11,6 +11,7 @@ function addFavArtist(req, res) {
     })
     .catch(err => {
       console.log(`Error adding favourite Artist: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -29,6 +30,7 @@ function deleteFavArtist(req, res) {
     })
     .catch(err => {
       console.log('Error deleting Artist: '+err);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -43,6 +45,7 @@ function addFavEvent(req, res) {
     })
     .catch(err => {
       console.log(`Error adding favourite Event: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -61,6 +64,7 @@ function deleteFavEvent(req, res) {
     })
     .catch(err => {
       console.log('Error deleting Event: '+err);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -75,6 +79,7 @@ function addFavVenue(req, res) {
     })
     .catch(err => {
       console.log(`Error adding favourite Venue: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 
@@ -93,6 +98,7 @@ function deleteFavVenue(req, res) {
     })
     .catch(err => {
       console.log('Error deleting Venue: '+err);
+      res.render('statics/error', {error: err});
     });
 }
 

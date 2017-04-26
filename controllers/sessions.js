@@ -11,6 +11,10 @@ function sessionsCreate(req, res) {
       req.session.userId = user.id;
       // res.locals.message = `welcome back, ${user.username}`;
       return res.redirect('/');
+    })
+    .catch(err => {
+      console.log(`Error creating session: ${err}`);
+      res.render('statics/error', {error: err});
     });
 }
 

@@ -14,6 +14,7 @@ function artistsOne(req, res) {
     })
     .catch(err => {
       console.log('Route error: '+err);
+      res.render('statics/error', {error: err});
     });
 }
 
