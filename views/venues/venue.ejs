@@ -7,8 +7,24 @@
           <p><%= venue.city.name %>, <%= venue.country.name %>, <%=  %></p>
         </div>
         <div class="column is-6">
-          <a href="#">Save to your favourites</a><br>
-          <a href="<%=  %>">View on TicketMaster</a>
+          <% if (locals.isLoggedIn) { %>
+            <a class="addFavourite" href="/favourite/venue/<%= locals.user.id %>/<%= venue.id %>">Save to your favourites</a><br>
+          <% } %>
+          <a href="<%= venue.url %>">View on TicketMaster</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <% if (venue.images) { %>
+          <img src="<%= venue.images[0].url %>" alt="<%= venue.name %>">
+          <% } else { %>
+            <p>No images</p>
+          <% } %>
         </div>
       </div>
     </div>

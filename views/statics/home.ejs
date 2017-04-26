@@ -25,7 +25,7 @@
             <input class="input" type="text" placeholder="Search">
           </p>
           <p class="control">
-            <a class="button" id="searchSubmit" style="color:black">Submit</a>
+            <a class="button" id="searchSubmit" style="color:black">Search</a>
           </p>
         </div>
       </form>
@@ -35,6 +35,7 @@
 
 <section class="hero hidden searchResultsParent">
   <div class="hero-body">
+    <button id="searchClose" class="delete" style="float: right"></button>
     <div class="container columns is-multiline searchResults">
 
     </div>
@@ -46,10 +47,10 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Artists
+          Top Artists
         </h1>
         <h2 class="subtitle">
-          Subtitle
+          Click to expand
         </h2>
       </div>
     </div>
@@ -63,10 +64,10 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Venues
+          Top Venues
         </h1>
         <h2 class="subtitle">
-          Subtitle
+          Click to expand
         </h2>
       </div>
     </div>
@@ -80,10 +81,10 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Events
+          Top Events
         </h1>
         <h2 class="subtitle">
-          Subtitle
+          Click to expand
         </h2>
       </div>
     </div>
@@ -99,14 +100,21 @@ $(() => {
     e.preventDefault();
     $('.mainSearch').submit();
   });
-  $('.mainSearch').on('submit', (e) => { //////////////// here begins the search stuff
+  $('#searchClose').on('click', (e) => {
+    e.preventDefault();
+    if ($('.oneResult').length > 0) $('.oneResult').remove();
+    $('.searchResultsParent').slideToggle('fast').addClass('hidden');
+  });
+  //////////////// here begins the search stuff
+  $('.mainSearch').on('submit', (e) => {
     e.preventDefault();
     if ($('.oneResult').length > 0) $('.oneResult').remove(); // delete old results
     const query = $('.mainSearch').find('input').val();
-    console.log($('select').val());
-    const searchType = $('select').val().toLowerCase();
+    // console.log($('select').val());
+    let searchType = $('select').val().toLowerCase();
+    searchType = searchType.substring(0, searchType.length-1)
     let queryComplete = '';
-    if (searchType === 'events') {
+    if (searchType === 'event') {
       queryComplete = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
       $
       .get(queryComplete)
@@ -118,19 +126,25 @@ $(() => {
         });
       });
     }
-    if (searchType === 'artists') {
+    if (searchType === 'artist') {
       queryComplete = `https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
       $
       .get(queryComplete)
       .done(results => {
         results._embedded.attractions.forEach(attraction => {
           let imgUrl = '';
+
           if (attraction.images) imgUrl = attraction.images[0].url;
-          $(`<div class="column is-4 oneResult"><h1 class="title">${attraction.name}</h1><p><a href="/${searchType}/${attraction.id}">View page</a></p></div>`).appendTo('.searchResults');
+          let oneResult = `<div class="column is-4 oneResult"><h1 class="title">${attraction.name}</h1><p><a href="/${searchType}/${attraction.id}">View page</a></p></div>`;
+          // if ($('.oneResult').length % 3 === 2) oneResult += '<br><hr>';
+          $(oneResult).appendTo('.searchResults');
         });
+      })
+      .fail(err => {
+        console.log('Error retrieving Artists: '+err);
       });
     }
-    if (searchType === 'venues') {
+    if (searchType === 'venue') {
       queryComplete = `https://app.ticketmaster.com/discovery/v2/venues.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&keyword=${query}`;
       $
       .get(queryComplete)
@@ -178,7 +192,6 @@ $(() => {
     });
   }
   function getEvents() {
-// https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn
     $
     .get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn')
     .done(events => {
@@ -214,7 +227,7 @@ $(() => {
   function createList(objectList, keyString) {
     let parentString = `<section class="hero is-primary is-medium ${keyString+'s'}List hidden">
       <div class="hero-body">
-        <div class="columns">`;
+        <div class="columns is-multiline">`;
     objectList.forEach(object => {
       parentString +=
       `<div class="column is-4">

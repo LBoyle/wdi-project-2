@@ -10,7 +10,6 @@ function artistsOne(req, res) {
   };
   rp(options)
     .then(artist => {
-      console.log(artist);
       return res.render('artists/artist', {artist});
     })
     .catch(err => {

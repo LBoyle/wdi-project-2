@@ -16,6 +16,13 @@ router.get('/', (req, res) => {
 router.route('/show/users')
   .get(users.show);
 
+router.route('/favourite/artist/:userId/:id')
+  .get(users.favArtist);
+router.route('/favourite/event/:userId/:id')
+  .get(users.favEvent);
+router.route('/favourite/venue/:userId/:id')
+  .get(users.favVenue);
+
 router.route('/account/user/:id')
   .delete(users.delete)
   .put(users.change)

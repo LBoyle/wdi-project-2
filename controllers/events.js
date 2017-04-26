@@ -10,7 +10,6 @@ function eventsOne(req, res) {
   };
   rp(options)
     .then(event => {
-      console.log(event);
       return res.render('events/event', {event});
     })
     .catch(err => {

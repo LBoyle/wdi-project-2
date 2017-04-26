@@ -1,24 +1,19 @@
 $(() => {
   console.log('jQuery on');
-  // didn't submit when pressing an a link, input button is ugly
+  // input button is ugly
   $('#loginSubmit').on('click', () => {
     $('#loginForm').submit();
   });
 
-  // registerModal event listener
-  $('.modalShow').on('click', () => {
-    $('.modal').addClass('is-active');
-    $('.modalClose').on('click', () => {
-      $('.modal').removeClass('is-active');
-    });
+  $('#nav-toggle').on('click', () => {
+    $('#nav-menu').toggleClass('is-active');
   });
 
-  $('.nav-toggle').on('click', () => {
-    // this works, I can use it for mobile menu?
+  $('.modalShow, .modalClose').on('click', () => {
+    $('.modal').toggleClass('is-active');
   });
 
-  // $('.deleteNotification').on('click', () => {
-  //   locals.message = '';
-  //   $('.notification').remove();
-  // });
+  $('.deleteNotification').on('click', () => {
+    $('.notification').remove();
+  });
 });

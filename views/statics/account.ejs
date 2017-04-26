@@ -58,12 +58,44 @@
 <section class="hero">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">Saved events</h1>
+      <h1 class="title">Saved Items</h1>
     </div>
   </div>
 </section>
-<section class="hero favsPanel">
 
+<section class="hero favsPanel">
+  <div class="columns">
+    <div class="column is-4">
+      <div class="container favArtists is-multiline">
+        <h1 class="title">Saved Artists</h1>
+        <% if (locals.isLoggedIn) { %>
+          <% user.favArtists.forEach(artist => { %>
+            <h2 class="subtitle"><%= artist %></h2>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+    <div class="column is-4">
+      <div class="container favEvents is-multiline">
+        <h1 class="title">Saved Events</h1>
+        <% if (locals.isLoggedIn) { %>
+          <% user.favEvents.forEach(event => { %>
+            <h2 class="subtitle"><%= event %></h2>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+    <div class="column is-4">
+      <div class="container favVenues is-multiline">
+        <h1 class="title">Saved Venues</h1>
+        <% if (locals.isLoggedIn) { %>
+          <% user.favVenues.forEach(venue => { %>
+            <h2 class="subtitle"><%= venue %></h2>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </div>
 </section>
 
 
@@ -84,6 +116,11 @@
         clickTitleAcc('changeAccount','formPanel');
       });
     }
+
+    function favourites() {
+
+    }
+
     changeAccForm();
   });
 

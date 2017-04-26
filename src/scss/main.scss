@@ -1,4 +1,8 @@
-div, .modal > * {
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+* {
+  font-family: 'Raleway', sans-serif;
+}
+div, .nav-menu, .modal > * {
   -webkit-transition: all linear .2s;
   -moz-transition: all linear .2s;
   transition: all linear .2s;
@@ -10,4 +14,7 @@ p.control, .deleteForm {
   text-align: center;
   margin: auto;
   max-width: 90%;
+}
+.columns {
+  margin: 0 20px;
 }

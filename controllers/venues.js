@@ -7,10 +7,9 @@ function venuesOne(req, res) {
       'User-Agent': 'Request-Promise'
     },
     json: true
-  }; // event
+  }; 
   rp(options)
     .then(venue => {
-      console.log(venue);
       return res.render('venues/venue', {venue});
     })
     .catch(err => {

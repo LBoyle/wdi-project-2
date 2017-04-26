@@ -6,7 +6,10 @@
           <h1 class="title"><%= artist.name %></h1>
         </div>
         <div class="column is-6">
-          <a href="#">Save to your favourites</a>
+          <% if (locals.isLoggedIn) { %>
+            <a class="addFavourite" href="/favourite/artist/<%= locals.user.id %>/<%= artist.id %>">Save to your favourites</a><br>
+          <% } %>
+          <a href="<%= artist.url %>">View on TicketMaster</a>
         </div>
       </div>
     </div>
