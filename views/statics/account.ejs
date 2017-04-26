@@ -70,7 +70,7 @@
         <h1 class="title">Saved Artists</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favArtists.forEach(artist => { %>
-            <h2 class="subtitle"><%= artist %></h2>
+            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -80,7 +80,7 @@
         <h1 class="title">Saved Events</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favEvents.forEach(event => { %>
-            <h2 class="subtitle"><%= event %></h2>
+            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -90,7 +90,7 @@
         <h1 class="title">Saved Venues</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favVenues.forEach(venue => { %>
-            <h2 class="subtitle"><%= venue %></h2>
+            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -118,10 +118,37 @@
     }
 
     function favourites() {
-
+      const artistUrls = $('.artistUrl');
+      for (var i = 0; i < artistUrls.length; i++) {
+        // console.log($(artistUrls[i]).text());
+        $
+        .get($(artistUrls[i]).text())
+        .done(artist => {
+          $(`<p>${artist.name}</p>`).appendTo('.favArtists');
+        });
+      }
+      const venueUrls = $('.venueUrl');
+      for (var i = 0; i < venueUrls.length; i++) {
+        // console.log($(venueUrls[i]).text());
+        $
+        .get($(venueUrls[i]).text())
+        .done(venue => {
+          $(`<p>${venue.name}</p>`).appendTo('.favVenues');
+        });
+      }
+      const eventUrls = $('.eventUrl');
+      for (var i = 0; i < eventUrls.length; i++) {
+        // console.log($(eventUrls[i]).text());
+        $
+        .get($(eventUrls[i]).text())
+        .done(event => {
+          $(`<p>${event.name}</p>`).appendTo('.favEvents');
+        });
+      }
     }
 
     changeAccForm();
+    favourites();
   });
 
 </script>

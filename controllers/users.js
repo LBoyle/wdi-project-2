@@ -7,8 +7,7 @@ function usersAccount(req, res) {
       if(!user) {
         return console.log('No user found');
       }
-      // res.locals.message = `${res.locals.user.username}`;
-      return res.render('statics/account');
+      return res.render('statics/account', {user});
     });
 }
 
@@ -24,7 +23,6 @@ function usersChange(req, res) {
       return user.save();
     })
     .then(user => {
-      // res.locals.message = 'Account updated';
       return res.redirect(`/account/${user.id}`);
     })
     .catch(err => {

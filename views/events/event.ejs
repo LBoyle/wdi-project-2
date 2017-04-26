@@ -55,9 +55,9 @@
       $('.showArtists').slideToggle('fast');
     });
 
+    // get all related artists
     const artistBoxes = $('.artistBox');
     for (var i = 0; i < artistBoxes.length; i++) {
-
       $
       .get($(artistBoxes[i]).attr('data-url'))
       .done(artist => {
@@ -69,6 +69,7 @@
       });
     }
 
+    // there's only one venue per event
     $
       .get($('#venueLink').attr('data-url'))
       .done(venue => {
@@ -79,6 +80,7 @@
           $('#venueLink').text('<p>No artist found</p>');
         }
       });
+    // end of ajax jazz
   });
 </script>
 
