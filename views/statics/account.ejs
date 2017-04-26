@@ -64,38 +64,42 @@
 </section>
 
 <section class="hero favsPanel">
+
   <div class="columns">
     <div class="column is-4">
       <div class="container favArtists is-multiline">
         <h1 class="title">Saved Artists</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favArtists.forEach(artist => { %>
-            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
     </div>
+
     <div class="column is-4">
       <div class="container favEvents is-multiline">
         <h1 class="title">Saved Events</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favEvents.forEach(event => { %>
-            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
     </div>
+
     <div class="column is-4">
       <div class="container favVenues is-multiline">
         <h1 class="title">Saved Venues</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favVenues.forEach(venue => { %>
-            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue %>.json?apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
     </div>
   </div>
+
 </section>
 
 
@@ -115,40 +119,89 @@
       .done(user => {
         clickTitleAcc('changeAccount','formPanel');
       });
-    }
+    } // end of account form function
 
     function favourites() {
+      const userId = $('.changeAccount').attr('data-id');
       const artistUrls = $('.artistUrl');
+      const venueUrls = $('.venueUrl');
+      const eventUrls = $('.eventUrl');
       for (var i = 0; i < artistUrls.length; i++) {
         // console.log($(artistUrls[i]).text());
         $
         .get($(artistUrls[i]).text())
         .done(artist => {
-          const favItem = `<p>${artist.name}</p>`;
+          const favItem = `
+          <h3 class="subtitle">${artist.name}</h3>
+          <p><a href="${artist.url}">View on TicketMaster</a></p>
+          <p><a href="/artist/${artist.id}">View page</a></p>
+          <form action="/favourite/artist/${userId}/${artist.id}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <a id="del${artist.id}" href="javascript:void(0)">Remove</a>
+          </form>
+          <br>`;
           $(favItem).appendTo('.favArtists');
+          return artist;
+        })
+        .done(artist => {
+          $(`#del${artist.id}`).on('click', function(e) {
+            e.preventDefault();
+            // console.log($(e.target).parent());
+            $(e.target).parent().submit();
+          });
         });
       }
-      const venueUrls = $('.venueUrl');
       for (var i = 0; i < venueUrls.length; i++) {
         // console.log($(venueUrls[i]).text());
         $
         .get($(venueUrls[i]).text())
         .done(venue => {
-          const favItem = `<p>${venue.name}</p>`;
+          const favItem = `
+          <h3 class="subtitle">${venue.name}</h3>
+          <p><a href="${venue.url}">View on TicketMaster</a></p>
+          <p><a href="/venue/${venue.id}">View page</a></p>
+          <form action="/favourite/venue/${userId}/${venue.id}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <a id="del${venue.id}">Remove</a>
+          </form>
+          <br>`;
           $(favItem).appendTo('.favVenues');
+          return venue;
+        })
+        .done(venue => {
+          $(`#del${venue.id}`).on('click', function(e) {
+            e.preventDefault();
+            // console.log($(e.target).parent());
+            $(e.target).parent().submit();
+          });
         });
       }
-      const eventUrls = $('.eventUrl');
       for (var i = 0; i < eventUrls.length; i++) {
         // console.log($(eventUrls[i]).text());
         $
         .get($(eventUrls[i]).text())
         .done(event => {
-          const favItem = `<p>${event.name}</p>`;
+          const favItem = `
+          <h3 class="subtitle">${event.name}</h3>
+          <p><a href="${event.url}">View on TicketMaster</a></p>
+          <p><a href="/event/${event.id}">View page</a></p>
+          <form action="/favourite/event/${userId}/${event.id}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <a id="del${event.id}">Remove</a>
+          </form>
+          <br>`;
           $(favItem).appendTo('.favEvents');
+          return event;
+        })
+        .done(event => {
+          $(`#del${event.id}`).on('click', function(e) {
+            e.preventDefault();
+            // console.log($(e.target).parent());
+            $(e.target).parent().submit();
+          });
         });
       }
-    }
+    } // end of favourites function
 
     changeAccForm();
     favourites();
