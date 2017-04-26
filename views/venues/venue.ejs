@@ -8,7 +8,7 @@
         </div>
         <div class="column is-6">
           <% if (locals.isLoggedIn) { %>
-            <a class="addFavourite" href="/favourite/venue/<%= locals.user.id %>/<%= venue.id %>">Save to your favourites</a><br>
+            <a class="addFavourite" href="/favourite/venue/<%= venue.id %>">Save to your favourites</a><br>
           <% } %>
           <a href="<%= venue.url %>">View on TicketMaster</a>
         </div>

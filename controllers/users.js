@@ -1,20 +1,24 @@
 const User = require('../models/user');
 
 function usersAccount(req, res) {
-  User
-    .findById(req.params.id)
-    .then(user => {
-      if(!user) {
-        return console.log('No user found');
-      }
-      return res.render('statics/account', {user});
-    });
+  if (res.locals.user) {
+    User
+      .findById(res.locals.user.id)
+      .then(user => {
+        if(!user) {
+          return console.log('No user found');
+        }
+        return res.render('statics/account', {user});
+      });
+  } else {
+    res.redirect('/');
+  }
 }
 
 function usersChange(req, res) {
   console.log('trying to change session');
   User
-    .findById(req.params.id)
+    .findById(res.locals.user.id)
     .exec()
     .then(user => {
       for (const field in req.body) {
@@ -22,8 +26,8 @@ function usersChange(req, res) {
       }
       return user.save();
     })
-    .then(user => {
-      return res.redirect(`/account/${user.id}`);
+    .then(() => {
+      return res.redirect(`/account`);
     })
     .catch(err => {
       console.log(`error: ${err}`);
@@ -44,7 +48,7 @@ function usersShow(req, res) {
 
 function usersOne(req, res) {
   User
-    .findById(req.params.id)
+    .findById(res.locals.user.id)
     .exec()
     .then(user => {
       res.json(user);
@@ -71,7 +75,7 @@ function usersCreate(req, res) {
 
 function usersDelete(req, res) {
   User
-    .findByIdAndRemove(req.params.id)
+    .findByIdAndRemove(res.locals.user.id)
     .exec()
     .then(() => {
       return req.session.regenerate(() => res.redirect('/'));
@@ -87,5 +91,5 @@ module.exports = {
   showOne: usersOne,
   change: usersChange,
   delete: usersDelete,
-  createUser: usersCreate,
+  createUser: usersCreate
 };

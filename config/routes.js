@@ -14,17 +14,20 @@ router.get('/', (req, res) => {
   res.render('statics/home');
 });
 
-router.route('/favourite/artist/:userId/:id')
-  .get(favourites.favArtist);
-router.route('/favourite/event/:userId/:id')
-  .get(favourites.favEvent);
-router.route('/favourite/venue/:userId/:id')
-  .get(favourites.favVenue);
+router.route('/favourite/artist/:id')
+  .get(favourites.favArtist)
+  .delete(favourites.deleteArtist);
+router.route('/favourite/event/:id')
+  .get(favourites.favEvent)
+  .delete(favourites.deleteEvent);
+router.route('/favourite/venue/:id')
+  .get(favourites.favVenue)
+  .delete(favourites.deleteVenue);
 
 router.route('/show/users')
   .get(users.show);
 
-router.route('/account/user/:id')
+router.route('/account/user')
   .delete(users.delete)
   .put(users.change)
   .get(users.showOne);
@@ -38,7 +41,7 @@ router.route('/logout')
 router.route('/register')
   .post(users.createUser);
 
-router.route('/account/:id')
+router.route('/account')
   .get(users.account);
 
 // router.route('/artists')

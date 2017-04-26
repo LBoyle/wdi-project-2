@@ -10,7 +10,7 @@
         <div class="column is-6">
           <p>Venue: <a id="venueLink" data-url="<%= 'http://app.ticketmaster.com'+event._links.venues['0'].href.split('?')[0]+'?'+'apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn&'+event._links.venues['0'].href.split('?')[1] %>"></a></p>
           <% if (locals.isLoggedIn) { %>
-            <a class="addFavourite" href="/favourite/event/<%= locals.user.id %>/<%= event.id %>">Save to your favourites</a><br>
+            <a class="addFavourite" href="/favourite/event/<%= event.id %>">Save to your favourites</a><br>
           <% } %>
           <a href="<%= event.url %>">View on TicketMaster</a>
         </div>

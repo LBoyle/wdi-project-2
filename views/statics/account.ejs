@@ -7,7 +7,7 @@
   </div>
 </section>
 
-<section class="hero is-warning changeAccount" data-id="<%= user._id %>">
+<section class="hero is-warning changeAccount">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Change account</h1>
@@ -15,7 +15,7 @@
   </div>
 </section>
 <section class="hero is-warning formPanel hidden">
-  <form action="/account/user/<%= user._id %>" method="post">
+  <form action="/account/user" method="post">
     <input type="hidden" name="_method" value="put">
 
     <div class="field">
@@ -37,7 +37,7 @@
     </div>
   </form>
   <hr>
-  <form action="/account/user/<%= user._id %>" method="post">
+  <form action="/account/user" method="post">
     <input type="hidden" name="_method" value="delete">
     <div class="field">
       <div class="control deleteForm">
@@ -112,17 +112,14 @@
           // $('.formPanel').toggleClass('hidden');
         });
       }
-
-      const userId = $('.changeAccount').attr('data-id');
       $
-      .get(`/account/user/${userId}`)
+      .get(`/account/user`)
       .done(user => {
         clickTitleAcc('changeAccount','formPanel');
       });
     } // end of account form function
 
     function favourites() {
-      const userId = $('.changeAccount').attr('data-id');
       const artistUrls = $('.artistUrl');
       const venueUrls = $('.venueUrl');
       const eventUrls = $('.eventUrl');
@@ -135,7 +132,7 @@
           <h3 class="subtitle">${artist.name}</h3>
           <p><a href="${artist.url}">View on TicketMaster</a></p>
           <p><a href="/artist/${artist.id}">View page</a></p>
-          <form action="/favourite/artist/${userId}/${artist.id}" method="post">
+          <form action="/favourite/artist/${artist.id}" method="post">
             <input type="hidden" name="_method" value="delete">
             <a id="del${artist.id}" href="javascript:void(0)">Remove</a>
           </form>
@@ -160,7 +157,7 @@
           <h3 class="subtitle">${venue.name}</h3>
           <p><a href="${venue.url}">View on TicketMaster</a></p>
           <p><a href="/venue/${venue.id}">View page</a></p>
-          <form action="/favourite/venue/${userId}/${venue.id}" method="post">
+          <form action="/favourite/venue/${venue.id}" method="post">
             <input type="hidden" name="_method" value="delete">
             <a id="del${venue.id}">Remove</a>
           </form>
@@ -185,7 +182,7 @@
           <h3 class="subtitle">${event.name}</h3>
           <p><a href="${event.url}">View on TicketMaster</a></p>
           <p><a href="/event/${event.id}">View page</a></p>
-          <form action="/favourite/event/${userId}/${event.id}" method="post">
+          <form action="/favourite/event/${event.id}" method="post">
             <input type="hidden" name="_method" value="delete">
             <a id="del${event.id}">Remove</a>
           </form>
