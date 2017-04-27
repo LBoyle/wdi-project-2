@@ -131,6 +131,7 @@ function usersOne(req, res) {
 }
 
 function usersCreate(req, res) {
+  if (req.body.image === '') req.body.image = 'http://www.fillmurray.com/284/196';
   User
   .create(req.body)
   .then(user => {

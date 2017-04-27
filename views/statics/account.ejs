@@ -75,15 +75,17 @@
 </section>
 
 <section class="hero favsPanel">
-
+<% if (user.favArtists.length > 0 || user.favEvents.length > 0 || user.favVenues.length > 0) { %>
   <div class="columns">
     <div class="column is-4">
       <div class="container favArtists is-multiline">
         <h1 class="title">Saved Artists</h1>
-        <% if (locals.isLoggedIn) { %>
+        <% if (locals.isLoggedIn && user.favArtists.length > 0) { %>
           <% user.favArtists.forEach(artist => { %>
             <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Artists</h4>
         <% } %>
       </div>
     </div>
@@ -91,10 +93,12 @@
     <div class="column is-4">
       <div class="container favEvents is-multiline">
         <h1 class="title">Saved Events</h1>
-        <% if (locals.isLoggedIn) { %>
+        <% if (locals.isLoggedIn && user.favEvents.length > 0) { %>
           <% user.favEvents.forEach(event => { %>
             <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Events</h4>
         <% } %>
       </div>
     </div>
@@ -102,14 +106,28 @@
     <div class="column is-4">
       <div class="container favVenues is-multiline">
         <h1 class="title">Saved Venues</h1>
-        <% if (locals.isLoggedIn) { %>
+        <% if (locals.isLoggedIn && user.favVenues.length > 0) { %>
           <% user.favVenues.forEach(venue => { %>
             <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Venues</h4>
         <% } %>
       </div>
     </div>
   </div>
+
+<% } else { %>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Nothing saved</h1>
+      </div>
+    </div>
+  </section>
+
+<% } %>
 
 </section>
 
