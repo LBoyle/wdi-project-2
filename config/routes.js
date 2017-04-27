@@ -29,9 +29,18 @@ router.route('/favourite/event/:id')
 router.route('/favourite/venue/:id')
   .get(secureRoute, favourites.favVenue)
   .delete(secureRoute, favourites.deleteVenue);
+router.route('/favourite/user/:id')
+  .get(secureRoute, favourites.addFriend)
+  .delete(secureRoute, favourites.deleteFriend);
 
 router.route('/show/users')
-  .get(secureRoute, users.show);
+  .get(users.show);
+router.route('/show/friends')
+  .get(secureRoute, users.showFriends);
+router.route('/show/friends/:id')
+  .get(users.showFriendsNotLogged)
+  .delete(favourites.deleteFriend);
+// using the same route for two unrelated operations
 
 router.route('/account/user')
   .delete(secureRoute, users.delete)
@@ -50,7 +59,7 @@ router.route('/register')
 router.route('/account')
   .get(secureRoute, users.account);
 
-router.route('/profile')
+router.route('/profile/:id')
   .get(users.profile);
 
 router.route('/artist/:id')

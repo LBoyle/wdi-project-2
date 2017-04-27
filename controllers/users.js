@@ -22,24 +22,22 @@ function usersAccount(req, res) {
 }
 
 function usersProfile(req, res) {
-  if (res.locals.user) {
-    User
-      .findById(res.locals.user.id)
-      .then(user => {
-        if(!user) {
-          console.log('No user found');
-          return res.render('statics/error', {error: 'User not found'});
-        }
-        return res.render('statics/profile', {user});
-      })
-      .catch(err => {
-        console.log(`Error getting user: ${err}`);
-        res.render('statics/error', {error: err});
-      });
-  } else {
-    res.locals.message = 'Please login or register';
-    res.redirect('/');
-  }
+  // console.log(res.locals.user);
+  User
+    .findById(req.params.id)
+    .then(user => {
+      if(!user) {
+        console.log('No user found');
+        return res.render('statics/error', {error: 'User not found'});
+      }
+      console.log(res.locals.user);
+      console.log(user);
+      return res.render('statics/profile', {user, userLogged: res.locals.user});
+    })
+    .catch(err => {
+      console.log(`Error getting user: ${err}`);
+      res.render('statics/error', {error: err});
+    });
 }
 
 function usersChange(req, res) {
@@ -67,7 +65,15 @@ function usersShow(req, res) {
     .find()
     .exec()
     .then(users => {
-      res.json(users);
+      res.json(users.map(user => {
+        return {
+          username: user.username,
+          email: user.email,
+          image: user.image,
+          friends: user.friends,
+          id: user.id
+        };
+      }));
     })
     .catch(err => {
       console.log(`Ajax error in /show/users ${err}`);
@@ -75,15 +81,51 @@ function usersShow(req, res) {
     });
 }
 
-function usersOne(req, res) {
+function usersShowFriends(req, res) {
   User
     .findById(res.locals.user.id)
+    .populate('friends')
+    .exec()
+    .then(user => {
+      res.json(user.friends.map(friend => {
+        return {
+          username: friend.username,
+          id: friend.id
+        };
+      }));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+function usersShowFriendsNotLogged(req, res) {
+  User
+    .findById(req.params.id)
+    .populate('friends')
+    .exec()
+    .then(user => {
+      res.json(user.friends.map(friend => {
+        return {
+          username: friend.username,
+          id: friend.id
+        };
+      }));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+function usersOne(req, res) {
+  User
+    .findById(req.params.id)
     .exec()
     .then(user => {
       res.json(user);
     })
     .catch(err => {
-      console.log(`Ajax error retrieving user to modify: ${err}`);
+      console.log(`Ajax error retrieving user: ${err}`);
       res.render('statics/error', {error: err});
     });
 }
@@ -127,5 +169,7 @@ module.exports = {
   showOne: usersOne,
   change: usersChange,
   delete: usersDelete,
-  createUser: usersCreate
+  createUser: usersCreate,
+  showFriends: usersShowFriends,
+  showFriendsNotLogged: usersShowFriendsNotLogged
 };

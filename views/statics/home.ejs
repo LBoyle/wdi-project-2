@@ -43,52 +43,67 @@
   </div>
 </section>
 
-  <section class="hero attractions dropSection">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          Top Artists
-        </h1>
-        <h2 class="subtitle">
-          Click to expand
-        </h2>
-      </div>
+<section class="hero users is-warning usersSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Browse Users
+      </h1>
+      <h2 class="subtitle">
+        Click to expand
+      </h2>
     </div>
-  </section>
-  <section class="hero is-primary is-medium attractionsList">
-  </section>
+  </div>
+</section>
+<section class="hero usersList hidden">
+</section>
+
+<section class="hero attractions dropSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Top Artists
+      </h1>
+      <h2 class="subtitle">
+        Click to expand
+      </h2>
+    </div>
+  </div>
+</section>
+<section class="hero is-primary is-medium attractionsList">
+</section>
 <hr>
 
-  <section class="hero venues dropSection">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          Top Venues
-        </h1>
-        <h2 class="subtitle">
-          Click to expand
-        </h2>
-      </div>
+<section class="hero venues dropSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Top Venues
+      </h1>
+      <h2 class="subtitle">
+        Click to expand
+      </h2>
     </div>
-  </section>
-  <section class="hero is-primary is-medium venuesList">
-  </section>
+  </div>
+</section>
+<section class="hero is-primary is-medium venuesList">
+</section>
 <hr>
 
-  <section class="hero events dropSection">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          Top Events
-        </h1>
-        <h2 class="subtitle">
-          Click to expand
-        </h2>
-      </div>
+<section class="hero events dropSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Top Events
+      </h1>
+      <h2 class="subtitle">
+        Click to expand
+      </h2>
     </div>
-  </section>
-  <section class="hero is-primary is-medium eventsList">
-  </section>
+  </div>
+</section>
+<section class="hero is-primary is-medium eventsList">
+</section>
 <hr>
 
 <script type="text/javascript">
@@ -173,6 +188,39 @@ $(() => {
     $(parentString).appendTo(`.${keyString+'s'}List`);
     $(`.${keyString+'s'}List`).slideToggle('fast');
   }
+
+  function usersSection() {
+    $('.usersSection').on('click', function() {
+      if ($(`.usersItem`).length === 0) {
+        $.get('/show/users')
+        .done(users => {
+          console.log(users);
+          let parentString = `<div class="hero-body usersItem">
+              <div class="columns is-multiline">`;
+          users.forEach(user => {
+            parentString +=
+            `<div class="column is-4">
+              <h1 class="title">
+                ${user.username}
+              </h1>
+              <h2 class="subtitle">
+                <p><a href="/profile/${user.id}">View profile</a></p>
+              </h2>
+            </div>`;
+          });
+          parentString += '</div></div><hr>';
+          console.log(parentString);
+          $(parentString).appendTo(`.usersList`);
+          $(`.usersList`).slideToggle('fast');
+        })
+        .fail(err => {
+          console.log('Error getting users: '+err);
+        });
+      } else $(`.usersList`).slideToggle('fast');
+    });
+  }
+
   dropSection();
+  usersSection();
 });
 </script>

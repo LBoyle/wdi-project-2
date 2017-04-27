@@ -36,6 +36,14 @@ User
       favEvents: [],
       favVenues: [],
       favArtists: []
+    },{
+      username: 'John',
+      email: 'john@john.com',
+      password: 'password',
+      passwordConf: 'password',
+      favEvents: [],
+      favVenues: [],
+      favArtists: []
     }
   ])
   .then(users => {

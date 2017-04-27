@@ -108,11 +108,51 @@ function deleteFavVenue(req, res) {
     });
 }
 
+function addFriend(req, res) {
+  User
+    .findById(res.locals.user.id)
+    .exec()
+    .then(user => {
+      user.friends.push(req.params.id);
+      user.save();
+      res.locals.message = 'User added to friends';
+      return res.redirect(`/profile/${req.params.id}`);
+    })
+    .catch(err => {
+      console.log(`Error adding favourite Artist: ${err}`);
+      res.render('statics/error', {error: err});
+    });
+}
+
+function deleteFriend(req, res) {
+  User
+    .findById(res.locals.user.id)
+    .exec()
+    .then(user => {
+      user.friends.forEach(friend => {
+        if (String(friend) === req.params.id) {
+          console.log('Same');
+          console.log(user.friends.indexOf(req.params.id));
+          user.friends.splice(user.friends.indexOf(req.params.id), 1);
+        }
+      });
+      user.save();
+      res.locals.message = 'Friend deleted';
+      return res.redirect('/account');
+    })
+    .catch(err => {
+      console.log('Error deleting Friend: '+err);
+      res.render('statics/error', {error: err});
+    });
+}
+
 module.exports = {
   favArtist: addFavArtist,
   deleteArtist: deleteFavArtist,
   favEvent: addFavEvent,
   deleteEvent: deleteFavEvent,
   favVenue: addFavVenue,
-  deleteVenue: deleteFavVenue
+  deleteVenue: deleteFavVenue,
+  addFriend: addFriend,
+  deleteFriend: deleteFriend
 };

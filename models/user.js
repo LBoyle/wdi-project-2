@@ -3,11 +3,13 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   username: {type: String, required: true, trim: true},
-  email: {type: String, required: true, trim: true},
+  email: {type: String, required: true, trim: true, unique: true},
   password: {type: String, required: true, trim: true},
+  image: {type: String, trim: true, default: 'http://www.fillmurray.com/284/196'},
   favEvents: [{tmId: {type: String, unique: true}}],
   favVenues: [{tmId: {type: String, unique: true}}],
-  favArtists: [{tmId: {type: String, unique: true}}]
+  favArtists: [{tmId: {type: String, unique: true}}],
+  friends: [{type: mongoose.Schema.ObjectId, ref: 'User', unique: true}]
 });
 
 userSchema.pre('save', function hashPassword(next) {

@@ -2,9 +2,20 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Welcome back <%= user.username %></h1>
-      <h2 class="subtitle">Account page</h2>
+      <h2 class="subtitle"><a href="/profile/<%= user.id %>">View Profile</a></h2>
     </div>
   </div>
+</section>
+
+<section class="hero friendsSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Your friends</h1>
+      <h2 class="subtitle">Click to expand</h2>
+    </div>
+  </div>
+</section>
+<section class="hero friendsList hidden">
 </section>
 
 <section class="hero is-warning changeAccount">
@@ -109,7 +120,6 @@
         function clickTitleAcc() {
         $('.changeAccount').on('click', () => {
           $('.formPanel').slideToggle('fast');
-          // $('.formPanel').toggleClass('hidden');
         });
       }
       $
@@ -124,7 +134,6 @@
       const venueUrls = $('.venueUrl');
       const eventUrls = $('.eventUrl');
       for (var i = 0; i < artistUrls.length; i++) {
-        // console.log($(artistUrls[i]).text());
         $
         .get($(artistUrls[i]).text())
         .done(artist => {
@@ -146,7 +155,7 @@
             // console.log($(e.target).parent());
             // $(e.target).parent().submit();
             console.log(e.target, artist.id);
-            
+
           });
         });
       }
@@ -202,8 +211,49 @@
       }
     } // end of favourites function
 
+    function friends() {
+      $('.friendsSection').on('click', () => {
+        if ($('.friendsItem').length === 0) {
+          $.get('/show/friends')
+          .done(friends => {
+            let parentString = '<div class="hero-body"><div class="container columns">';
+            if (friends.length > 0) {
+              friends.forEach(friend => {
+                parentString += `<div class="column is-4 friendsItem">
+                  <h2 class="title">${friend.username}</h2>
+                  <h4><a href="/profile/${friend.id}">View profile</a></h4>
+                  <form action="/show/friends/${friend.id}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <a class="delFriend" id="${friend.id}">Delete Friend</a>
+                  </form>
+                </div>`;
+              });
+            } else parentString += `<div class="column is-4 friendsItem">
+              <h2 class="title">No friends</h2>
+              <h4><a href="/">Go make some friends</a></h4>
+            </div>`;
+            parentString += '</div></div>';
+            $(parentString).appendTo('.friendsList');
+            $('.friendsList').slideToggle('fast');
+          })
+          .done(() => {
+            $('.delFriend').on('click', (e) => {
+              console.log($(e.target).parent());
+              $(e.target).parent().submit();
+            });
+          })
+          .fail(err => {
+            console.log(err);
+          });
+        } else {
+          $('.friendsList').slideToggle('fast');
+        }
+      });
+    }
+
     changeAccForm();
     favourites();
+    friends();
   });
 
 </script>

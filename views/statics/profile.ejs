@@ -1,7 +1,74 @@
-<h1>Profile</h1>
+<p id="userId" class="hidden"><%= user.id %></p>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="subtitle"><% if (locals.isLoggedIn) { %>Logged in as <%= userLogged.username %><% } else { %>Please Login<% } %></h1>
+    </div>
+  </div>
+</section>
 
-<% if (locals.isLoggedIn) { %>
-  <%= locals.user.username %><br>
-  <%= locals.user.email %><br>
-  <%= locals.user.id %>
-<% } %>
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title"><%= user.username %></h1>
+      <% if (locals.isLoggedIn && user.id !== userLogged.id) { %><p><a href="/favourite/user/<%= user.id %>">Add to freinds</a></p><% } %>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-warning">
+  <div class="hero-body">
+    <div class="container columns">
+      <div class="column is-4">
+        <img src="<%= user.image %>" alt="">
+      </div>
+      <div class="column is-8">
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero friendsSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title"><%= user.username %>&apos;s friends</h1>
+      <h2 class="subtitle">Click to expand</h2>
+    </div>
+  </div>
+</section>
+<section class="hero friendsList hidden">
+</section>
+
+<script type="text/javascript">
+function friends() {
+  $('.friendsSection').on('click', () => {
+    if ($('.friendsItem').length === 0) {
+      $.get(`/show/friends/${$('#userId').text()}`)
+      .done(friends => {
+        let parentString = '<div class="hero-body"><div class="container columns">';
+        if (friends.length > 0) {
+          friends.forEach(friend => {
+            parentString += `<div class="column is-4 friendsItem">
+              <h2 class="title">${friend.username}</h2>
+              <h4><a href="/profile/${friend.id}">View profile</a></h4>
+            </div>`;
+          });
+        } else parentString += `<div class="column is-4 friendsItem">
+          <h2 class="title">No friends</h2>
+        </div>`;
+        parentString += '</div></div>';
+        $(parentString).appendTo('.friendsList');
+        $('.friendsList').slideToggle('fast');
+      })
+      .fail(err => {
+        console.log(err);
+      });
+    } else {
+      $('.friendsList').slideToggle('fast');
+    }
+  });
+}
+friends();
+
+</script>
