@@ -141,9 +141,9 @@ function usersCreate(req, res) {
   })
   .catch((err) => {
     if (err.name === 'ValidationError') {
-      return res.status(400).redirect('/');
+      return res.render('statics/error', {error: err});
     }
-    res.status(500).end();
+    return res.render('statics/error', {error: err});
   });
 }
 

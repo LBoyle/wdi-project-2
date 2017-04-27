@@ -115,8 +115,6 @@ function addFriend(req, res) {
     .then(user => {
       user.friends.push(req.params.id);
       user.save();
-      res.locals.message = 'User added to friends';
-      // return res.redirect(`/profile/${req.params.id}`);
       return User
         .findById(req.params.id)
         .exec()
@@ -148,8 +146,6 @@ function deleteFriend(req, res) {
         }
       });
       user.save();
-      res.locals.message = 'Friend deleted';
-
       return User
         .findById(req.params.id)
         .exec()

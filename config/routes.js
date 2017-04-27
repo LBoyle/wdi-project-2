@@ -46,28 +46,23 @@ router.route('/account/user')
   .delete(secureRoute, users.delete)
   .put(secureRoute, users.change)
   .get(secureRoute, users.showOne);
+router.route('/account')
+  .get(secureRoute, users.account);
 
 router.route('/login')
   .post(sessions.login);
-
 router.route('/logout')
   .get(sessions.logout);
 
 router.route('/register')
   .post(users.createUser);
 
-router.route('/account')
-  .get(secureRoute, users.account);
-
 router.route('/profile/:id')
   .get(users.profile);
-
 router.route('/artist/:id')
   .get(artists.showOne);
-
 router.route('/venue/:id')
   .get(venues.showOne);
-
 router.route('/event/:id')
   .get(events.showOne);
 

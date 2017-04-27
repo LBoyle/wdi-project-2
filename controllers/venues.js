@@ -10,6 +10,7 @@ function venuesOne(req, res) {
   };
   rp(options)
     .then(venue => {
+      console.log(venue);
       return res.render('venues/venue', {venue});
     })
     .catch(err => {

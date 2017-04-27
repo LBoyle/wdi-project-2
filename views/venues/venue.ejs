@@ -1,25 +1,26 @@
-<% if(venue) { %>
+<% if (venue) { %>
+  <style>
+     #map {
+      height: 400px;
+      width: 100%;
+      background-color: #f5f5f5;
+     }
+  </style>
   <section class="hero">
     <div class="hero-body">
       <div class="columns">
-        <div class="column is-6">
+        <div class="column is-4">
           <h1 class="title"><%= venue.name %></h1>
           <p><%= venue.city.name %>, <%= venue.country.name %>, <%=  %></p>
         </div>
-        <div class="column is-6">
+        <div class="column is-4">
           <% if (locals.isLoggedIn) { %>
             <a class="addFavourite" href="/favourite/venue/<%= venue.id %>">Save to your favourites</a><br>
           <% } %>
           <a href="<%= venue.url %>">View on TicketMaster</a>
+          <p class="queryString hidden"><%= venue.name %> <%= venue.country.name %> <%= venue.state.name %> <%= venue.postalCode %></p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="hero">
-    <div class="hero-body">
-      <div class="columns">
-        <div class="column is-6 is-offset-3">
+        <div class="column is-4">
           <% if (venue.images) { %>
           <img src="<%= venue.images[0].url %>" alt="<%= venue.name %>">
           <% } else { %>
@@ -29,66 +30,34 @@
       </div>
     </div>
   </section>
+  <div id="map"></div>
 
 <% }else{ %>
   <h4>No venue found</h4>
 <% } %>
 
-<%# {
-  "name": "Twickenham Stoop Stadium",
-  "type": "venue",
-  "id": "KovZ9177-Kf",
-  "test": false,
-  "url": "http://www.ticketmaster.co.uk/venue/434720",
-  "locale": "en-de",
-  "images": [
-  {
-    "ratio": "16_9",
-    "url": "https://s1.ticketm.net/dbimages/2403v.",
-    "width": 205,
-    "height": 115,
-    "fallback": false
-  }
-  ],
-  "postalCode": "TW2 7SX",
-  "timezone": "Europe/London",
-  "city": {
-    "name": "Twickenham"
-  },
-  "country": {
-    "name": "Great Britain",
-    "countryCode": "GB"
-  },
-  "address": {
-    "line1": "Langhorn Drive"
-  },
-  "location": {
-    "longitude": "-0.343232",
-    "latitude": "51.450761"
-  },
-  "markets": [
-  {
-    "id": "201"
-  },
-  {
-    "id": "202"
-  }
-  ],
-  "dmas": [
-  {
-    "id": 601
-  },
-  {
-    "id": 602
-  }
-  ],
-  "accessibleSeatingDetail": "Elton John-Saturday 3rd June 2017 Little Mix-Sunday 25th June 2017 Refer to the Ticketmaster Accessibility line on 0800 988 4440 (all tickets subject to availability). Harlequins Matches (ONLY) ---------------------------- Please call Harlequins Ticket Office on 0208 410 6010 Monday to Friday between 09:00 and 16:30.",
-  "generalInfo": {
-    "childRule": "Juniors (Under 16) to be accompanied by an adult"
-  },
-  "_links": {
-    "self": {
-      "href": "/discovery/v2/venues/KovZ9177-Kf?locale=en-de"
-    }
-  }
-}%>
+
+<script type="text/javascript">
+  $(() => {
+    const queryString = $('.queryString').text().split(' ').join('+');
+    console.log(queryString);
+    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${queryString}&key=AIzaSyBsaiBNOAIEePUXdsyZDtUeF8KiZknNWso`)
+    .done(response => {
+      let center = response.results[0].geometry.location;
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 6,
+        center: {lat: parseFloat(center.lat), lng: parseFloat(center.lng)}
+      });
+      var marker = new google.maps.Marker({
+        position: {lat: parseFloat(center.lat), lng: parseFloat(center.lng)},
+        map: map
+      });
+    })
+    .fail(err => {
+      console.log(err);
+    });
+  });
+</script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwrqwTyJhA-4468kE238_4-QIjwMKGnzA">
+</script>
