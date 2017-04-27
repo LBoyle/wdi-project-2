@@ -21,11 +21,11 @@ function deleteFavArtist(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favArtists.forEach(artist => {
-        if (artist === req.params.id) {
-          user.favArtists.splice(user.favArtists.indexOf(req.params.id), 1);
+      for (var i = 0; i < user.favArtists.length; i++) {
+        if (user.favArtists[i].tmId === req.params.id) {
+          user.favArtists.splice(i, 1);
         }
-      });
+      }
       user.save();
       res.locals.message = 'Artist removed from favourites';
       return res.redirect('/account');
@@ -57,11 +57,11 @@ function deleteFavEvent(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favEvents.forEach(event => {
-        if (event === req.params.id) {
-          user.favEvents.splice(user.favEvents.indexOf(req.params.id), 1);
+      for (var i = 0; i < user.favEvents.length; i++) {
+        if (user.favEvents[i].tmId === req.params.id) {
+          user.favEvents.splice(i, 1);
         }
-      });
+      }
       user.save();
       res.locals.message = 'Event removed from favourites';
       return res.redirect('/account');
@@ -93,11 +93,11 @@ function deleteFavVenue(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favVenues.forEach(venue => {
-        if (venue === req.params.id) {
-          user.favVenues.splice(user.favVenues.indexOf(req.params.id), 1);
+      for (var i = 0; i < user.favVenues.length; i++) {
+        if (user.favVenues[i].tmId === req.params.id) {
+          user.favVenues.splice(i, 1);
         }
-      });
+      }
       user.save();
       res.locals.message = 'Venue removed from favourites';
       return res.redirect('/account');

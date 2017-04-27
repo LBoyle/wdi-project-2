@@ -141,7 +141,7 @@
           <h3 class="subtitle">${artist.name}</h3>
           <p><a href="${artist.url}">View on TicketMaster</a></p>
           <p><a href="/artist/${artist.id}">View page</a></p>
-          <form>
+          <form action="/favourite/artist/${artist.id}" method="post">
             <input type="hidden" name="_method" value="delete">
             <a id="del${artist.id}" href="javascript:void(0)">Remove</a>
           </form>
@@ -153,9 +153,7 @@
           $(`#del${artist.id}`).on('click', function(e) {
             e.preventDefault();
             // console.log($(e.target).parent());
-            // $(e.target).parent().submit();
-            console.log(e.target, artist.id);
-
+            $(e.target).parent().submit();
           });
         });
       }
@@ -179,7 +177,7 @@
         .done(venue => {
           $(`#del${venue.id}`).on('click', function(e) {
             e.preventDefault();
-            // console.log($(e.target).parent());
+            console.log($(e.target).parent());
             $(e.target).parent().submit();
           });
         });
@@ -204,7 +202,7 @@
         .done(event => {
           $(`#del${event.id}`).on('click', function(e) {
             e.preventDefault();
-            // console.log($(e.target).parent());
+            console.log($(e.target).parent());
             $(e.target).parent().submit();
           });
         });
@@ -238,7 +236,6 @@
           })
           .done(() => {
             $('.delFriend').on('click', (e) => {
-              console.log($(e.target).parent());
               $(e.target).parent().submit();
             });
           })
