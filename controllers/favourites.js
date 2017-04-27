@@ -116,10 +116,23 @@ function addFriend(req, res) {
       user.friends.push(req.params.id);
       user.save();
       res.locals.message = 'User added to friends';
-      return res.redirect(`/profile/${req.params.id}`);
+      // return res.redirect(`/profile/${req.params.id}`);
+      return User
+        .findById(req.params.id)
+        .exec()
+        .then(user => {
+          user.friends.push(res.locals.user.id);
+          user.save();
+          res.locals.message = 'User added to friends';
+          return res.redirect(`/profile/${req.params.id}`);
+        })
+        .catch(err => {
+          console.log(`Error adding you to your new friend's list: ${err}`);
+          res.render('statics/error', {error: err});
+        });
     })
     .catch(err => {
-      console.log(`Error adding favourite Artist: ${err}`);
+      console.log(`Error adding friend: ${err}`);
       res.render('statics/error', {error: err});
     });
 }
@@ -131,14 +144,29 @@ function deleteFriend(req, res) {
     .then(user => {
       user.friends.forEach(friend => {
         if (String(friend) === req.params.id) {
-          console.log('Same');
-          console.log(user.friends.indexOf(req.params.id));
           user.friends.splice(user.friends.indexOf(req.params.id), 1);
         }
       });
       user.save();
       res.locals.message = 'Friend deleted';
-      return res.redirect('/account');
+
+      return User
+        .findById(req.params.id)
+        .exec()
+        .then(user => {
+          user.friends.forEach(friend => {
+            if (String(friend) === res.locals.user.id) {
+              user.friends.splice(user.friends.indexOf(res.locals.user.id), 1);
+            }
+          });
+          user.save();
+          res.locals.message = 'Friend deleted';
+          return res.redirect('/account');
+        })
+        .catch(err => {
+          console.log('Error deleting Friend: '+err);
+          res.render('statics/error', {error: err});
+        });
     })
     .catch(err => {
       console.log('Error deleting Friend: '+err);
