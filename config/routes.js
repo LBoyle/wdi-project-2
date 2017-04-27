@@ -17,21 +17,8 @@ function secureRoute(req, res, next) {
   }
   return next();
 }
-// function secureRoute(req, res, next) {
-//   if (!req.session.userId) {
-//     return req.session.regenerate(() => {
-//       req.flash('danger', 'You must be logged in.');
-//       res.redirect('/login');
-//     });
-//   }
-//
-//   return next();
-// }
 
-router.get('/', (req, res) => {
-  // if (res.locals.isLoggedIn) res.locals.message = `Welcome back ${res.locals.user.username}`;
-  res.render('statics/home');
-});
+router.get('/', (req, res) => res.render('statics/home'));
 
 router.route('/favourite/artist/:id')
   .get(secureRoute, favourites.favArtist)
@@ -63,18 +50,15 @@ router.route('/register')
 router.route('/account')
   .get(secureRoute, users.account);
 
-// router.route('/artists')
-//   .get(artists.show);
+router.route('/profile')
+  .get(users.profile);
+
 router.route('/artist/:id')
   .get(artists.showOne);
 
-// router.route('/venues')
-//   .get(venues.show);
 router.route('/venue/:id')
   .get(venues.showOne);
 
-// router.route('/events')
-//   .get(events.show);
 router.route('/event/:id')
   .get(events.showOne);
 

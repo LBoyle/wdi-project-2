@@ -16,6 +16,28 @@ function usersAccount(req, res) {
         res.render('statics/error', {error: err});
       });
   } else {
+    res.locals.message = 'Please login or register';
+    res.redirect('/');
+  }
+}
+
+function usersProfile(req, res) {
+  if (res.locals.user) {
+    User
+      .findById(res.locals.user.id)
+      .then(user => {
+        if(!user) {
+          console.log('No user found');
+          return res.render('statics/error', {error: 'User not found'});
+        }
+        return res.render('statics/profile', {user});
+      })
+      .catch(err => {
+        console.log(`Error getting user: ${err}`);
+        res.render('statics/error', {error: err});
+      });
+  } else {
+    res.locals.message = 'Please login or register';
     res.redirect('/');
   }
 }
@@ -31,6 +53,7 @@ function usersChange(req, res) {
       return user.save();
     })
     .then(() => {
+      res.locals.message = 'Account details changed';
       return res.redirect(`/account`);
     })
     .catch(err => {
@@ -70,6 +93,7 @@ function usersCreate(req, res) {
   .create(req.body)
   .then(user => {
     console.log(`User ${user} created`);
+    res.locals.message = 'Thanks for registering, please login';
     return res.redirect('/');
   })
   .catch((err) => {
@@ -85,7 +109,10 @@ function usersDelete(req, res) {
     .findByIdAndRemove(res.locals.user.id)
     .exec()
     .then(() => {
-      return req.session.regenerate(() => res.redirect('/'));
+      return req.session.regenerate(() => {
+        res.locals.message = 'User account deleted';
+        res.redirect('/');
+      });
     })
     .catch(err => {
       console.log(err);
@@ -95,6 +122,7 @@ function usersDelete(req, res) {
 
 module.exports = {
   account: usersAccount,
+  profile: usersProfile,
   show: usersShow,
   showOne: usersOne,
   change: usersChange,

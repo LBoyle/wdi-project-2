@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema({
   username: {type: String, required: true, trim: true},
   email: {type: String, required: true, trim: true},
   password: {type: String, required: true, trim: true},
-  favEvents: [{type: String, unique: true}],
-  favVenues: [{type: String, unique: true}],
-  favArtists: [{type: String, unique: true}]
+  favEvents: [{tmId: {type: String, unique: true}}],
+  favVenues: [{tmId: {type: String, unique: true}}],
+  favArtists: [{tmId: {type: String, unique: true}}]
 });
 
 userSchema.pre('save', function hashPassword(next) {

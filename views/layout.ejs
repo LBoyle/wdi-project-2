@@ -24,11 +24,15 @@
   <header>
     <%- include ./partials/nav %>
     <% if (locals.message) { %>
-      <div class="notification alert">
+      <div class="notification">
         <p><%= message %></p>
         <button class="deleteNotification delete"></button>
       </div>
     <% } %>
+    <div class="notification hidden">
+      <p>alert</p>
+      <button class="deleteNotification delete"></button>
+    </div>
   </header>
   <main>
     <%- body %>

@@ -5,8 +5,9 @@ function addFavArtist(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favArtists.push(req.params.id);
+      user.favArtists.push({tmId: req.params.id});
       user.save();
+      res.locals.message = 'Artist added to favourites';
       return res.redirect(`/artist/${req.params.id}`);
     })
     .catch(err => {
@@ -26,6 +27,7 @@ function deleteFavArtist(req, res) {
         }
       });
       user.save();
+      res.locals.message = 'Artist removed from favourites';
       return res.redirect('/account');
     })
     .catch(err => {
@@ -39,8 +41,9 @@ function addFavEvent(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favEvents.push(req.params.id);
+      user.favEvents.push({tmId: req.params.id});
       user.save();
+      res.locals.message = 'Event added to favourites';
       return res.redirect(`/event/${req.params.id}`);
     })
     .catch(err => {
@@ -60,6 +63,7 @@ function deleteFavEvent(req, res) {
         }
       });
       user.save();
+      res.locals.message = 'Event removed from favourites';
       return res.redirect('/account');
     })
     .catch(err => {
@@ -73,8 +77,9 @@ function addFavVenue(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.favVenues.push(req.params.id);
+      user.favVenues.push({tmId: req.params.id});
       user.save();
+      res.locals.message = 'Venue added to favourites';
       return res.redirect(`/venue/${req.params.id}`);
     })
     .catch(err => {
@@ -94,6 +99,7 @@ function deleteFavVenue(req, res) {
         }
       });
       user.save();
+      res.locals.message = 'Venue removed from favourites';
       return res.redirect('/account');
     })
     .catch(err => {

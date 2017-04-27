@@ -71,7 +71,7 @@
         <h1 class="title">Saved Artists</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favArtists.forEach(artist => { %>
-            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -82,7 +82,7 @@
         <h1 class="title">Saved Events</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favEvents.forEach(event => { %>
-            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -93,7 +93,7 @@
         <h1 class="title">Saved Venues</h1>
         <% if (locals.isLoggedIn) { %>
           <% user.favVenues.forEach(venue => { %>
-            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
           <% }); %>
         <% } %>
       </div>
@@ -132,19 +132,21 @@
           <h3 class="subtitle">${artist.name}</h3>
           <p><a href="${artist.url}">View on TicketMaster</a></p>
           <p><a href="/artist/${artist.id}">View page</a></p>
-          <form action="/favourite/artist/${artist.id}" method="post">
+          <form>
             <input type="hidden" name="_method" value="delete">
             <a id="del${artist.id}" href="javascript:void(0)">Remove</a>
           </form>
           <br>`;
           $(favItem).appendTo('.favArtists');
-          return artist;
+          return artist; // <form action="/favourite/artist/${artist.id}" method="post">
         })
         .done(artist => {
           $(`#del${artist.id}`).on('click', function(e) {
             e.preventDefault();
             // console.log($(e.target).parent());
-            $(e.target).parent().submit();
+            // $(e.target).parent().submit();
+            console.log(e.target, artist.id);
+            
           });
         });
       }

@@ -1,0 +1,7 @@
+<h1>Profile</h1>
+
+<% if (locals.isLoggedIn) { %>
+  <%= locals.user.username %><br>
+  <%= locals.user.email %><br>
+  <%= locals.user.id %>
+<% } %>

@@ -6,10 +6,9 @@ function sessionsCreate(req, res) {
     .then(user => {
       if(!user || !user.validatePassword(req.body.password)) {
         res.locals.message = 'Unknown email/password combination';
-        return res.render('statics/home');
+        return res.redirect('/');
       }
       req.session.userId = user.id;
-      // res.locals.message = `welcome back, ${user.username}`;
       return res.redirect('/');
     })
     .catch(err => {
@@ -21,7 +20,6 @@ function sessionsCreate(req, res) {
 function sessionsDelete(req, res) {
   return req.session.regenerate(() => res.redirect('/'));
 }
-
 
 module.exports = {
   login: sessionsCreate,
