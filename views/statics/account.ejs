@@ -147,7 +147,7 @@
       });
     } // end of account form function
 
-    function xfavourites(category) {
+    function favourites(category) {
       const categoryUrls = $(`.${category}Url`);
       for (var i = 0; i < categoryUrls.length; i++) {
         $
@@ -204,6 +204,7 @@
           })
           .done(() => {
             $('.delFriend').on('click', (e) => {
+              console.log(e.target);
               $(e.target).parent().submit();
             });
           })
@@ -217,9 +218,9 @@
     }
 
     changeAccForm();
-    xfavourites('artist');
-    xfavourites('venue');
-    xfavourites('event');
+    favourites('artist');
+    favourites('venue');
+    favourites('event');
     friends();
   });
 

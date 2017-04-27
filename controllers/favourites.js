@@ -158,6 +158,7 @@ function deleteFriend(req, res) {
           user.save();
           res.locals.message = 'Friend deleted';
           return res.redirect('/account');
+          // return; // for use when I work out how to update the dom properly
         })
         .catch(err => {
           console.log('Error deleting Friend: '+err);

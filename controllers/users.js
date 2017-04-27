@@ -30,8 +30,6 @@ function usersProfile(req, res) {
         console.log('No user found');
         return res.render('statics/error', {error: 'User not found'});
       }
-      console.log(res.locals.user);
-      console.log(user);
       return res.render('statics/profile', {user, userLogged: res.locals.user});
     })
     .catch(err => {
