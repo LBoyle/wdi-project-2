@@ -18,6 +18,8 @@ User.collection.drop();
 // Artist.collection.drop();
 // Event.collection.drop();
 
+const loremShort = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+
 User
   .create([
     {
@@ -25,25 +27,19 @@ User
       email: 'louis@louis.com',
       password: 'password',
       passwordConf: 'password',
-      favEvents: [],
-      favVenues: [],
-      favArtists: []
+      bio: loremShort
     },{
       username: 'Admin',
       email: 'admin@admin.com',
       password: 'password',
       passwordConf: 'password',
-      favEvents: [],
-      favVenues: [],
-      favArtists: []
+      bio: loremShort
     },{
       username: 'John',
       email: 'john@john.com',
       password: 'password',
       passwordConf: 'password',
-      favEvents: [],
-      favVenues: [],
-      favArtists: []
+      bio: loremShort
     }
   ])
   .then(users => {

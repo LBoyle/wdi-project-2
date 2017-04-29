@@ -116,21 +116,25 @@ function addFriend(req, res) {
     .findById(res.locals.user.id)
     .exec()
     .then(user => {
-      user.friends.push(req.params.id);
-      user.save();
-      return User
-        .findById(req.params.id)
-        .exec()
-        .then(user => {
-          user.friends.push(res.locals.user.id);
-          user.save();
-          res.locals.message = 'User added to friends';
-          return res.redirect(`/profile/${req.params.id}`);
-        })
-        .catch(err => {
-          console.log(`Error adding you to your new friend's list: ${err}`);
-          res.render('statics/error', {error: err});
-        });
+      if (user.friends.indexOf(req.params.id) === -1) {
+        user.friends.push(req.params.id);
+        user.save();
+        return User
+          .findById(req.params.id)
+          .exec()
+          .then(user => {
+            user.friends.push(res.locals.user.id);
+            user.save();
+            res.locals.message = 'User added to friends';
+            return res.redirect(`/profile/${req.params.id}`);
+          })
+          .catch(err => {
+            console.log(`Error adding you to your new friend's list: ${err}`);
+            res.render('statics/error', {error: err});
+          });
+      } else {
+        return res.redirect(`/profile/${req.params.id}`);
+      }
     })
     .catch(err => {
       console.log(`Error adding friend: ${err}`);

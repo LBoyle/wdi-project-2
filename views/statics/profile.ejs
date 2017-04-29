@@ -1,11 +1,4 @@
 <p id="userId" class="hidden"><%= user.id %></p>
-<section class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="subtitle"><% if (locals.isLoggedIn) { %>Logged in as <%= userLogged.username %><% } else { %>Please Login<% } %></h1>
-    </div>
-  </div>
-</section>
 
 <section class="hero is-primary">
   <div class="hero-body">
@@ -23,36 +16,115 @@
         <img src="<%= user.image %>" alt="">
       </div>
       <div class="column is-8">
-
+        <h1 class="title">Bio</h1>
+        <h2 class="subtitle"><%= user.bio %></h2>
       </div>
     </div>
   </div>
 </section>
 
-<section class="hero friendsSection">
+<section class="hero usersSection">
   <div class="hero-body">
     <div class="container">
       <h1 class="title"><%= user.username %>&apos;s friends</h1>
-      <h2 class="subtitle">Click to expand</h2>
+      <a class="button users usersSectionBtn" style="border: 1px solid black">Expand</a>
     </div>
   </div>
 </section>
 <section class="hero friendsList hidden">
 </section>
 
+<section class="hero favsSection">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Saved Items</h1>
+    </div>
+  </div>
+</section>
+
+<section class="hero favsPanel">
+<% if (user.favArtists.length > 0 || user.favEvents.length > 0 || user.favVenues.length > 0) { %>
+  <div class="columns">
+    <div class="column is-4">
+      <div class="container favartists is-multiline">
+        <h1 class="title">Artists</h1>
+        <% if (locals.isLoggedIn && user.favArtists.length > 0) { %>
+          <% user.favArtists.forEach(artist => { %>
+            <p class="hidden artistUrl">https://app.ticketmaster.com/discovery/v2/attractions/<%= artist.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+          <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Artists</h4>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="column is-4">
+      <div class="container favevents is-multiline">
+        <h1 class="title">Events</h1>
+        <% if (locals.isLoggedIn && user.favEvents.length > 0) { %>
+          <% user.favEvents.forEach(event => { %>
+            <p class="hidden eventUrl">https://app.ticketmaster.com/discovery/v2/events/<%= event.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+          <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Events</h4>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="column is-4">
+      <div class="container favvenues is-multiline">
+        <h1 class="title">Venues</h1>
+        <% if (locals.isLoggedIn && user.favVenues.length > 0) { %>
+          <% user.favVenues.forEach(venue => { %>
+            <p class="hidden venueUrl">https://app.ticketmaster.com/discovery/v2/venues/<%= venue.tmId %>.json&quest;apikey=sJdyvBFWmrZySkRDzJ2v0wNi2qtLb7pn</p>
+          <% }); %>
+        <% } else { %>
+          <br><h4 class="subtitle">No saved Venues</h4>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+<% } else { %>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="subtitle">Nothing saved</h1>
+      </div>
+    </div>
+  </section>
+
+<% } %>
+</section>
+
 <script type="text/javascript">
 function friends() {
-  $('.friendsSection').on('click', () => {
+  $('.usersSectionBtn').on('click', () => {
     if ($('.friendsItem').length === 0) {
       $.get(`/show/friends/${$('#userId').text()}`)
       .done(friends => {
         let parentString = '<div class="hero-body"><div class="container columns">';
         if (friends.length > 0) {
           friends.forEach(friend => {
-            parentString += `<div class="column is-4 friendsItem">
-              <h2 class="title">${friend.username}</h2>
-              <h4><a href="/profile/${friend.id}">View profile</a></h4>
-            </div>`;
+            // parentString += `<div class="column is-4 friendsItem">
+            //   <h2 class="title">${friend.username}</h2>
+            //   <h4><a href="/profile/${friend.id}">View profile</a></h4>
+            // </div>`;
+            parentString +=
+            `
+<div class="card column is-4 friendsItem">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${friend.username}
+    </p>
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="/profile/${friend.id}">View profile</a>
+    <a class="card-footer-item" href="jacascript:void(0)">Something else</a>
+  </footer>
+</div>
+            `;
           });
         } else parentString += `<div class="column is-4 friendsItem">
           <h2 class="title">No friends</h2>
@@ -69,6 +141,44 @@ function friends() {
     }
   });
 }
+
+function favourites(category) {
+  const categoryUrls = $(`.${category}Url`);
+  for (var i = 0; i < categoryUrls.length; i++) {
+    $
+    .get($(categoryUrls[i]).text())
+    .done(item => {
+      const favItem =
+      `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${item.name}
+    </p>
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="${item.url}">View on TicketMaster</a>
+    <a class="card-footer-item" href="javascript:void(0)">Something else</a>
+  </footer>
+</div>
+      `;
+      $(favItem).appendTo(`.fav${category+'s'}`);
+      return item;
+    })
+    .done(item => {
+      $(`#del${item.id}`).on('click', function(e) {
+        e.preventDefault();
+        $(e.target).parent().submit();
+      });
+    })
+    .fail(err => {
+      console.log(err);
+    });
+  }
+}
+favourites('artist');
+favourites('venue');
+favourites('event');
 friends();
 
 </script>

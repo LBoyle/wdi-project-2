@@ -7,11 +7,11 @@
   </div>
 </section>
 
-<section class="hero friendsSection">
+<section class="hero usersSection">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Your friends</h1>
-      <h2 class="subtitle">Click to expand</h2>
+      <a class="button users usersSectionBtn" style="border: 1px solid black">Expand</a>
     </div>
   </div>
 </section>
@@ -22,6 +22,7 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Change account</h1>
+      <a class="button is-warning changeAccountBtn" style="border: 1px solid black">Expand</a>
     </div>
   </div>
 </section>
@@ -38,6 +39,12 @@
     <div class="field">
       <p class="control">
         <input class="input" type="email" name="email" placeholder="Email" value="<%= user.email %>"></input>
+      </p>
+    </div>
+
+    <div class="field">
+      <p class="control">
+        <textarea class="textarea" type="text" name="bio" placeholder="Bio"><%= user.bio %></textarea>
       </p>
     </div>
 
@@ -160,10 +167,9 @@
     <p class="card-header-title">
       ${item.name}
     </p>
-
   </header>
   <footer class="card-footer">
-    <a class="card-footer-item" href="${item.url}">View on TicketMaster</a>
+    <a class="card-footer-item" href="/${category}/${item.id}">View page</a>
     <form class="card-footer-item" action="/favourite/${category}/${item.id}" method="post">
       <input type="hidden" name="_method" value="delete">
       <a  id="del${item.id}" href="javascript:void(0)">Remove</a>
@@ -187,7 +193,7 @@
     }
 
     function friends() {
-      $('.friendsSection').on('click', () => {
+      $('.usersSectionBtn').on('click', () => {
         if ($('.friendsItem').length === 0) {
           $.get('/show/friends')
           .done(friends => {
@@ -196,12 +202,11 @@
               friends.forEach(friend => {
                 parentString +=
                 `
-<div class="card column is-4">
+<div class="card column is-4 friendsItem">
   <header class="card-header">
     <p class="card-header-title">
       ${friend.username}
     </p>
-
   </header>
   <footer class="card-footer">
     <a class="card-footer-item" href="/profile/${friend.id}">View profile</a>

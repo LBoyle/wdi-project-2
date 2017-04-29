@@ -7,6 +7,11 @@ div, .nav-menu {
   -moz-transition: all linear .2s;
   transition: all linear .2s;
 }
+.card {
+  -webkit-transition: all linear 0s;
+  -moz-transition: all linear 0s;
+  transition: all linear 0s;
+}
 .hidden {
   display: none;
 }
@@ -18,6 +23,11 @@ p.control, .deleteForm {
 .columns {
   margin: 0 20px;
 }
-.card {
-
+.foot {
+  margin-top: 20px;
+}
+@media screen and (max-width: 1000px) {
+  .card {
+    width: 100% !important;
+  }
 }

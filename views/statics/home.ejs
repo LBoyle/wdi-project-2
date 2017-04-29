@@ -56,7 +56,7 @@
       <h1 class="title">
         Top Artists
       </h1>
-      <a class="button attractions attractionsBtn dropSectionBtn" style="margin-top: 0">Expand</a>
+      <a class="button attractions attractionsBtn dropSectionBtn">Expand</a>
     </div>
   </div>
 </section>
@@ -70,7 +70,7 @@
       <h1 class="title">
         Top Venues
       </h1>
-      <a class="button venues venuesBtn dropSectionBtn" style="margin-top: 0">Expand</a>
+      <a class="button venues venuesBtn dropSectionBtn">Expand</a>
     </div>
   </div>
 </section>
@@ -84,13 +84,12 @@
       <h1 class="title">
         Top Events
       </h1>
-      <a class="button events eventsBtn dropSectionBtn" style="margin-top: 0">Expand</a>
+      <a class="button events eventsBtn dropSectionBtn">Expand</a>
     </div>
   </div>
 </section>
 <section class="hero is-medium eventsList">
 </section>
-<hr>
 
 <script type="text/javascript">
 $(() => {
@@ -159,14 +158,19 @@ $(() => {
 
   function dropSection() {
     $('.dropSectionBtn').on('click', function(e) {
-      $(this).addClass('is-loading');
+      $(this).addClass('is-loading'); // this is the button
+      // $(this).text('Close');
       const keyString = this.classList[1].substring(0, this.classList[1].length-1);
       if ($(`.${keyString+'s'}Item`).length === 0) {
         getData(`${keyString}`);
         $(`.${keyString+'s'}List`).slideToggle('fast');
+        // $(`.${keyString+'s'}Btn`).text('Close');
       } else {
         $(`.${keyString+'s'}List`).slideToggle('fast');
-      $(`.${keyString+'s'}Btn`).removeClass('is-loading');}
+        $(this).removeClass('is-loading');
+        // const btnText = () ? 'Expand': 'Close';
+        // $(`.${keyString+'s'}Btn`).text('Expand');
+      }
     });
   } // shortened click event
 
