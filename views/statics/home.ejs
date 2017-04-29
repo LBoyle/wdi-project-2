@@ -64,7 +64,7 @@
     </div>
   </div>
 </section>
-<section class="hero is-primary is-medium attractionsList">
+<section class="hero is-medium attractionsList">
 </section>
 <hr>
 
@@ -80,7 +80,7 @@
     </div>
   </div>
 </section>
-<section class="hero is-primary is-medium venuesList">
+<section class="hero is-medium venuesList">
 </section>
 <hr>
 
@@ -96,7 +96,7 @@
     </div>
   </div>
 </section>
-<section class="hero is-primary is-medium eventsList">
+<section class="hero is-medium eventsList">
 </section>
 <hr>
 
@@ -127,7 +127,20 @@ $(() => {
         let imgUrl = '';
         if (object.images) imgUrl = object.images[0].url;
         if (searchType === 'attraction') searchType = 'artist';
-        let oneResult = `<div class="column is-4 oneResult"><h1 class="title">${object.name}</h1><p><a href="/${searchType}/${object.id}">View page</a></p></div>`;
+        const oneResult = `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${object.name}
+    </p>
+
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="/${searchType}/${object.id}">View page</a>
+    <a class="card-footer-item" href="/favourite/${searchType}/${object.id}">Add to favourites</a>
+  </footer>
+</div>
+        `;
         $(oneResult).appendTo('.searchResults');
       });
     })
@@ -163,19 +176,25 @@ $(() => {
   } // shortened click event
 
   function createList(objectList, keyString) {
-    let parentString = `<div class="hero-body ${keyString+'s'}Item">
+    let parentString = `<div class="${keyString+'s'}Item">
         <div class="columns is-multiline">`;
     if (keyString === 'attraction') keyString = 'artist'; // yep
     objectList.forEach(object => {
       parentString +=
-      `<div class="column is-4">
-        <h1 class="title">
-          ${object.name}
-        </h1>
-        <h2 class="subtitle">
-          <p><a href="/${keyString}/${object.id}">View page</a></p>
-        </h2>
-      </div>`;
+      `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${object.name}
+    </p>
+
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="/${keyString}/${object.id}">View page</a>
+    <a class="card-footer-item">Something else</a>
+  </footer>
+</div>
+      `;
     });
     parentString += '</div></div>';
     if (keyString === 'artist') keyString = 'attraction'; // yep
@@ -193,14 +212,28 @@ $(() => {
               <div class="columns is-multiline">`;
           users.forEach(user => {
             parentString +=
-            `<div class="column is-4">
-              <h1 class="title">
-                ${user.username}
-              </h1>
-              <h2 class="subtitle">
-                <p><a href="/profile/${user.id}">View profile</a></p>
-              </h2>
-            </div>`;
+            `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${user.username}
+    </p>
+
+  </header>
+  <div class="card-content">
+    <div class="content">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+      <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+      <br>
+      <small>11:09 PM - 1 Jan 2016</small>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="/profile/${user.id}">View page</a>
+    <a class="card-footer-item">Message</a>
+  </footer>
+</div>
+            `;
           });
           parentString += '</div></div><hr>';
           console.log(parentString);

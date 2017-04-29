@@ -8,7 +8,8 @@ function addFavArtist(req, res) {
       user.favArtists.push({tmId: req.params.id});
       user.save();
       res.locals.message = 'Artist added to favourites';
-      return res.redirect(`/artist/${req.params.id}`);
+      return res.redirect('/');
+      // return;
     })
     .catch(err => {
       console.log(`Error adding favourite Artist: ${err}`);
@@ -44,7 +45,8 @@ function addFavEvent(req, res) {
       user.favEvents.push({tmId: req.params.id});
       user.save();
       res.locals.message = 'Event added to favourites';
-      return res.redirect(`/event/${req.params.id}`);
+      return res.redirect('/');
+      // return;
     })
     .catch(err => {
       console.log(`Error adding favourite Event: ${err}`);
@@ -80,7 +82,8 @@ function addFavVenue(req, res) {
       user.favVenues.push({tmId: req.params.id});
       user.save();
       res.locals.message = 'Venue added to favourites';
-      return res.redirect(`/venue/${req.params.id}`);
+      return res.redirect('/');
+      // return;
     })
     .catch(err => {
       console.log(`Error adding favourite Venue: ${err}`);

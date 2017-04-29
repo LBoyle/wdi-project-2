@@ -153,15 +153,24 @@
         $
         .get($(categoryUrls[i]).text())
         .done(item => {
-          const favItem = `
-          <h3 class="subtitle">${item.name}</h3>
-          <p><a href="${item.url}">View on TicketMaster</a></p>
-          <p><a href="/${category}/${item.id}">View page</a></p>
-          <form action="/favourite/${category}/${item.id}" method="post">
-            <input type="hidden" name="_method" value="delete">
-            <a id="del${item.id}" href="javascript:void(0)">Remove</a>
-          </form>
-          <br>`;
+          const favItem =
+          `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${item.name}
+    </p>
+
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="${item.url}">View on TicketMaster</a>
+    <form class="card-footer-item" action="/favourite/${category}/${item.id}" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <a  id="del${item.id}" href="javascript:void(0)">Remove</a>
+    </form>
+  </footer>
+</div>
+          `;
           $(favItem).appendTo(`.fav${category+'s'}`);
           return item;
         })
@@ -185,14 +194,24 @@
             let parentString = '<div class="hero-body"><div class="container columns">';
             if (friends.length > 0) {
               friends.forEach(friend => {
-                parentString += `<div class="column is-4 friendsItem">
-                  <h2 class="title">${friend.username}</h2>
-                  <h4><a href="/profile/${friend.id}">View profile</a></h4>
-                  <form action="/show/friends/${friend.id}" method="post">
-                    <input type="hidden" name="_method" value="delete">
-                    <a class="delFriend" id="${friend.id}">Delete Friend</a>
-                  </form>
-                </div>`;
+                parentString +=
+                `
+<div class="card column is-4">
+  <header class="card-header">
+    <p class="card-header-title">
+      ${friend.username}
+    </p>
+
+  </header>
+  <footer class="card-footer">
+    <a class="card-footer-item" href="/profile/${friend.id}">View profile</a>
+    <form class="card-footer-item" action="/show/friends/${friend.id}" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <a class="delFriend" id="${friend.id}">Delete Friend</a>
+    </form>
+  </footer>
+</div>
+                `;
               });
             } else parentString += `<div class="column is-4 friendsItem">
               <h2 class="title">No friends</h2>
